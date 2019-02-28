@@ -11,12 +11,14 @@
 }
 
 .wrapped-input input,
-.wrapped-input textarea {
+.wrapped-input textarea,
+.wrapped-input select {
   border: none;
   background: rgba(0, 0, 0, 0.1);
   padding: 0.25rem;
   font-size: 0.875rem;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .wrapped-input__warn-text {
