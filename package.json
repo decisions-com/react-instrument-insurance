@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "24.0.9",
-    "@types/node": "11.9.5",
-    "@types/react": "16.8.5",
-    "@types/react-dom": "16.8.2",
+    "classnames": "^2.2.6",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
@@ -26,5 +25,13 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@types/js-cookie": "^2.2.1",
+    "@types/classnames": "^2.2.7",
+    "@types/jest": "^24.0.9",
+    "@types/node": "11.9.5",
+    "@types/react": "16.8.5",
+    "@types/react-dom": "16.8.2"
+  }
 }
