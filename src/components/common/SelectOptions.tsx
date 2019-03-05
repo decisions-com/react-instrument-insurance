@@ -10,6 +10,11 @@ const getOption = (name: React.ReactNode) => (
 
 export default function SelectOptions({ children }: SelectOptionsProps) {
   return (
-    <React.Fragment>{React.Children.map(children, getOption)}</React.Fragment>
+    <React.Fragment>
+      <option value="" disabled>
+        Select
+      </option>
+      {React.Children.map(children, getOption)}
+    </React.Fragment>
   );
 }
