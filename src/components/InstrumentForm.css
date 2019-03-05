@@ -1,0 +1,10 @@
+.instrument-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.instrument-form__fields,
+.instrument-form__buttons {
+  display: flex;
+  flex-direction: row;
+}

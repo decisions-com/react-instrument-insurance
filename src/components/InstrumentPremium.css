@@ -1,0 +1,13 @@
+.instrument-premium {
+  margin-left: 1rem;
+}
+
+.instrument-premium__value {
+  padding: 1rem 0;
+  background: #0088cc;
+  color: white;
+  text-align: center;
+  /* vertical-align: middle; */
+  font-weight: 900;
+  font-size: 3rem;
+}

@@ -39,7 +39,7 @@ export function getUrlWithSessionId(
   const sessionId = AuthApi.getSessionId(); // TODO escape?
   return `${
     ApiConfig.restRoot
-  }?${type}=${id}&Action=api&outputtype=JSON&sessionId=${sessionId}`;
+  }?${type}=${id}&Action=api&outputtype=RawJson&sessionId=${sessionId}`;
 }
 
 type ResolvingCallback<T> = (json: T) => void;
