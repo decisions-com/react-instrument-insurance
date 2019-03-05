@@ -1,11 +1,11 @@
-.App {
+.mii-react-app {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 }
 
-.App-logo {
+.mii-react-app-logo {
   height: 2rem;
   pointer-events: none;
   background: white;
@@ -13,7 +13,7 @@
   /* margin-right: 0.5rem; */
 }
 
-.App-title {
+.mii-react-app-title {
   font-size: 2rem;
   color: #0088cc;
   color: #fff;
@@ -22,7 +22,7 @@
   margin: 0 0.5rem;
 }
 
-.App-header {
+.mii-react-app-header {
   padding: 0.25rem;
   background-color: rgb(175, 228, 255);
   background-color: rgb(13, 84, 119);
@@ -35,12 +35,22 @@
   flex-direction: row;
 }
 
-.App-content {
+.mii-react-app-content {
   flex: 1;
   background: #f8f8f8;
   padding: 1rem;
 }
 
-.App-link {
+.mii-react-app-link {
   color: #61dafb;
+}
+
+.mii-react-app button {
+  border: none;
+  background: #0088cc;
+  padding: 0.3rem 0.6rem;
+  color: white;
+  font-size: 1rem;
+  border-radius: 2px;
+  cursor: pointer;
 }
