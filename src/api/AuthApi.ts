@@ -41,18 +41,19 @@ export const AuthApi = {
         method: "POST",
         mode: ApiConfig.getFetchMode()
       })
-        .then(response =>
-          // TODO check response status, prior to trying to parse JSON to avoid error
-          // TODO use normal decisions cookie, but _clear_ it, if it's not a good session
-          response.json().then((json: ILoginJson) => {
-            const id = sessionIdSelector(json.LoginUserResult);
-            Cookies.set(SESSION_ID_COOKIE, id);
-            // USER_COOKIE was being set by request headers before, or so I thought.
-            // not today... maybe because configuration is now CORS?
-            Cookies.set(USER_COOKIE, userid);
-            resolve(id);
-          })
-        )
+        .then(async response => {
+          if (response.status >= 300) {
+            // Do we need to clear the cookie? is that fixed? Getting 500s for now :(
+            reject(response.statusText);
+          }
+          const json = await response.json();
+          const id = sessionIdSelector(json.LoginUserResult);
+          Cookies.set(SESSION_ID_COOKIE, id);
+          // USER_COOKIE was being set by request headers before, or so I thought.
+          // not today... maybe because configuration is now CORS?
+          Cookies.set(USER_COOKIE, userid);
+          resolve(id);
+        })
         .catch(reason => {
           reject(reason);
         })
