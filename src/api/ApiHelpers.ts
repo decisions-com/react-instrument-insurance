@@ -9,6 +9,10 @@ export function getFlowIdUrl(flowId: string) {
   return getUrlWithSessionId("FlowId", flowId);
 }
 
+export function getRuleIdUrl(ruleId: string) {
+  return getUrlWithSessionId("RuleId", ruleId, "Json");
+}
+
 /**
  * Creates Flow url for a flow reference by "Alias". Assumes this was done to create
  * "pretty" paths and that the provided url is not
@@ -33,13 +37,14 @@ export function getServiceEndPointUrl(path: string) {
  * @return url with sessionId query parameter appended.
  */
 export function getUrlWithSessionId(
-  type: "ReportId" | "FlowId" | "FlowAlias",
-  id: string
+  type: "ReportId" | "FlowId" | "FlowAlias" | "RuleId",
+  id: string,
+  output: "Json" | "RawJson" = "RawJson"
 ) {
   const sessionId = AuthApi.getSessionId(); // TODO escape?
   return `${
     ApiConfig.restRoot
-  }?${type}=${id}&Action=api&outputtype=RawJson&sessionId=${sessionId}`;
+  }?${type}=${id}&Action=api&outputtype=${output}&sessionId=${sessionId}`;
 }
 
 type ResolvingCallback<T> = (json: T) => void;
