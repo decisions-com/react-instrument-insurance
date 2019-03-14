@@ -1,8 +1,13 @@
 import React from "react";
 import InstrumentDetails, { InstrumentDetailsInfo } from "./InstrumentDetails";
 import InstrumentPremium from "./InstrumentPremium";
-import "./InstrumentForm.css";
-import { getSubTypes } from "../api/InstrumentApi";
+import "./common/MiiForm.css";
+import {
+  getSubTypes,
+  selectionIsOther,
+  getShowCase
+} from "../api/InstrumentApi";
+import MiiForm from "./common/MiiForm";
 
 interface InstrumentFormProps {}
 
@@ -22,7 +27,7 @@ let defaultState: InstrumentFormState = {
     "Other"
   ],
   instrumentDetail: "",
-  instrumentDetails: ["Acoustic", "Electric"],
+  instrumentDetails: [],
   storageType: "",
   storageTypes: [
     "Home",
@@ -46,11 +51,26 @@ export default class InstrumentForm extends React.Component<
   state = { ...defaultState };
 
   onTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
-    this.setState({ instrumentType: e.target.value });
-    getSubTypes(e.target.value).then(instrumentDetails =>
-      this.setState({ instrumentDetails })
-    );
+    const instrumentType = e.target.value;
+
+    this.setState({ instrumentType });
+
+    getSubTypes(instrumentType)
+      .then(instrumentDetails => this.setState({ instrumentDetails }))
+      .catch();
+
+    selectionIsOther(instrumentType)
+      .then(showOtherDetail => {
+        this.setState({ showOtherDetail });
+      })
+      .catch();
+
+    getShowCase(instrumentType)
+      .then(canBeInCase => {
+        this.setState({ canBeInCase });
+      })
+      .catch();
+
     // TODO rest call to run rule to get can be in case
     // TODO rest call about "other?"
   };
@@ -106,29 +126,27 @@ export default class InstrumentForm extends React.Component<
 
   render() {
     return (
-      <form className="instrument-form" onSubmit={this.onSubmit}>
-        <div className="instrument-form__fields">
-          <section>
-            <InstrumentDetails
-              {...this.state}
-              onTypeChange={this.onTypeChange}
-              onDetailChange={this.onDetailChange}
-              onYearChange={this.onYearChange}
-              onPriceChange={this.onPriceChange}
-              onReplacementCostChange={this.onReplacementCostChange}
-              onStorageChange={this.onStorageChange}
-              onHardShellChange={this.onHardShellChange}
-              onProChange={this.onProChange}
-            />
-          </section>
-          <section>
-            <InstrumentPremium {...this.state} />
-          </section>
-        </div>
-        <div className="instrument-form__buttons">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      <MiiForm
+        onSubmit={this.onSubmit}
+        buttons={<button type="submit">Submit</button>}
+      >
+        <section>
+          <InstrumentDetails
+            {...this.state}
+            onTypeChange={this.onTypeChange}
+            onDetailChange={this.onDetailChange}
+            onYearChange={this.onYearChange}
+            onPriceChange={this.onPriceChange}
+            onReplacementCostChange={this.onReplacementCostChange}
+            onStorageChange={this.onStorageChange}
+            onHardShellChange={this.onHardShellChange}
+            onProChange={this.onProChange}
+          />
+        </section>
+        <section>
+          <InstrumentPremium {...this.state} />
+        </section>
+      </MiiForm>
     );
   }
 }

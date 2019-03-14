@@ -1,0 +1,42 @@
+:root {
+  --mii-blue: #0088cc;
+}
+
+.mii-home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.mii-home-header {
+  flex: 2;
+  margin: 0 auto;
+  padding: 4rem 2rem 0;
+  width: 66%;
+  background-color: rgb(13, 84, 119, 0.75);
+  color: white;
+  display: flex;
+  align-content: space-between;
+  flex-direction: row;
+  align-content: center;
+}
+
+.mii-home__logo {
+  height: 4rem;
+  margin: 1rem;
+  /* background: white; */
+}
+
+.mii-home-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.mii-home-content {
+  font-size: 1.25rem;
+  flex: 5;
+  width: 66%;
+  background: rgba(255, 255, 255, 0.75);
+  margin: 1rem auto;
+  padding: 2rem;
+}

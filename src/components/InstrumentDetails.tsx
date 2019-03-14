@@ -50,9 +50,7 @@ export default class InstrumentDetails extends React.Component<
             onChange={this.props.onTypeChange}
             value={this.props.instrumentType}
           >
-            <SelectOptions optionNames={this.props.instrumentTypes}>
-              {this.props.instrumentTypes}
-            </SelectOptions>
+            <SelectOptions>{this.props.instrumentTypes}</SelectOptions>
           </select>
         </WrapInput>
         {this.props.showOtherDetail ? (
@@ -69,7 +67,9 @@ export default class InstrumentDetails extends React.Component<
               id="detail"
               value={this.props.instrumentDetail}
               onChange={this.props.onDetailChange}
-            />
+            >
+              <SelectOptions>{this.props.instrumentDetails}</SelectOptions>
+            </select>
           </WrapInput>
         )}
         <WrapInput htmlFor="year" label="Year Made" required>
@@ -97,10 +97,7 @@ export default class InstrumentDetails extends React.Component<
             value={this.props.storageType}
             onChange={this.props.onStorageChange}
           >
-            <SelectOptions
-              optionNames={this.props.instrumentTypes}
-              value={this.props.storageType}
-            >
+            <SelectOptions value={this.props.storageType}>
               {this.props.storageTypes}
             </SelectOptions>
           </select>

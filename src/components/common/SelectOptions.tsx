@@ -1,7 +1,7 @@
 import React from "react";
 
 interface SelectOptionsProps extends React.HTMLProps<{}> {
-  optionNames: string[];
+  // optionNames: string[];
 }
 
 const getOption = (name: React.ReactNode) => (

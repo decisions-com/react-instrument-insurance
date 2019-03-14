@@ -1,21 +1,45 @@
 import React, { Component } from "react";
-import logo from "./agileLogoTrans.png";
 import "./App.css";
 import InstrumentForm from "./components/InstrumentForm";
 import LoginForm from "./components/LoginForm";
+import Header from "./components/common/Header";
+import HomeComponent from "./components/Home";
 
-class App extends Component {
+enum Routes {
+  HOME = "home",
+  ADDRESS = "address",
+  DETAILS = "details"
+}
+
+interface AppState {
+  route: Routes;
+}
+
+// could just install React Router, but making that play nice with IIS is a "nice to have."
+const initialState: AppState = {
+  route: Routes.HOME
+};
+
+class App extends Component<{}, AppState> {
+  state = { ...initialState };
+
+  onApplyClick = () => {
+    this.setState({ route: Routes.DETAILS });
+  };
+
   render() {
     return (
       <div className="mii-react-app">
         <LoginForm />
-        <header className="mii-react-app-header">
-          <h1 className="mii-react-app-title">Musical Instrument Insurance</h1>
-          <img src={logo} className="mii-react-app-logo" alt="logo" />
-        </header>
-        <section className="mii-react-app-content">
-          <InstrumentForm />
-        </section>
+        {this.state.route === Routes.HOME && (
+          <HomeComponent onApplyClick={this.onApplyClick} />
+        )}
+        {this.state.route === Routes.DETAILS && [
+          <Header title="Musical Instrument Insurance" />,
+          <section className="mii-react-app-content">
+            <InstrumentForm />
+          </section>
+        ]}
       </div>
     );
   }

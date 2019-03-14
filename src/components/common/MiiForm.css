@@ -1,10 +1,10 @@
-.instrument-form {
+.mii-form {
   display: flex;
   flex-direction: column;
 }
 
-.instrument-form__fields,
-.instrument-form__buttons {
+.mii-form__fields,
+.mii-form__buttons {
   display: flex;
   flex-direction: row;
 }
