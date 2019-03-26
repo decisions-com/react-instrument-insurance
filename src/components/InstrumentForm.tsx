@@ -119,8 +119,7 @@ export default class InstrumentForm extends React.Component<
     console.log(label, wasPlayedPro);
   };
 
-  onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  onSubmit = () => {
     // TODO submit
   };
 

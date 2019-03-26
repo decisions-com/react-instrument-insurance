@@ -4,6 +4,7 @@ import InstrumentForm from "./components/InstrumentForm";
 import LoginForm from "./components/LoginForm";
 import Header from "./components/common/Header";
 import HomeComponent from "./components/Home";
+import AddressForm from "./components/AddressForm";
 
 enum Routes {
   HOME = "home",
@@ -24,7 +25,7 @@ class App extends Component<{}, AppState> {
   state = { ...initialState };
 
   onApplyClick = () => {
-    this.setState({ route: Routes.DETAILS });
+    this.setState({ route: Routes.ADDRESS });
   };
 
   render() {
@@ -34,10 +35,11 @@ class App extends Component<{}, AppState> {
         {this.state.route === Routes.HOME && (
           <HomeComponent onApplyClick={this.onApplyClick} />
         )}
-        {this.state.route === Routes.DETAILS && [
-          <Header title="Musical Instrument Insurance" />,
-          <section className="mii-react-app-content">
-            <InstrumentForm />
+        {this.state.route !== Routes.HOME && [
+          <Header key="header" title="Musical Instrument Insurance" />,
+          <section key="section" className="mii-react-app-content">
+            {this.state.route === Routes.DETAILS && <InstrumentForm />}
+            {this.state.route === Routes.ADDRESS && <AddressForm />}
           </section>
         ]}
       </div>
