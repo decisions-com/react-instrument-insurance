@@ -76,6 +76,32 @@ export function getResponseJson<T>(
   }
 }
 
+/**
+ * Covers some idiosyncracies in the Decisions API, related to return types,
+ * and common result wrappers.
+ * @param url to fetch
+ * @param propertyName to pull data from, if provided
+ * @returns promise resolving expected type
+ */
+export function getWrappedFetch<T>(url: string, propertyName?: string) {
+  return new Promise<T>(async (resolve, reject) => {
+    try {
+      const response = await fetch(url, {
+        mode: ApiConfig.getFetchMode()
+      });
+      return getResponseJson(
+        response,
+        (json: any) => {
+          return propertyName ? resolve(json[propertyName]) : resolve(json);
+        },
+        reject
+      );
+    } catch (reason) {
+      reject(reason);
+    }
+  });
+}
+
 function isJsonContentType(contentType: string | null) {
   return !contentType ? false : contentType.toUpperCase().includes(JSON);
 }

@@ -2,7 +2,8 @@ import {
   getFlowIdUrl,
   getServiceEndPointUrl,
   getResponseJson,
-  getRuleIdUrl
+  getRuleIdUrl,
+  getWrappedFetch
 } from "./ApiHelpers";
 import { ApiConfig } from "./ApiConfig";
 
@@ -143,27 +144,6 @@ export const getHideOtherField = (instrumentType: string) =>
 // export const getShowIconGrid = (fileData) => {}
 // not doing this one... not going to send a base64 encoded image,
 // just to check if it exists on the server side.
-
-/* helper functions */
-
-function getWrappedFetch<T>(url: string, propertyName: string) {
-  return new Promise<T>(async (resolve, reject) => {
-    try {
-      const response = await fetch(url, {
-        mode: ApiConfig.getFetchMode()
-      });
-      return getResponseJson(
-        response,
-        (json: any) => {
-          return resolve(json[propertyName]);
-        },
-        reject
-      );
-    } catch (reason) {
-      reject(reason);
-    }
-  });
-}
 
 function getShowCaseRuleUrl(instrumentType: string) {
   // rule is named "IsPiano" which is too specific, IMO.
