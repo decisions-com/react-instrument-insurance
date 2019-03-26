@@ -70,9 +70,6 @@ export default class InstrumentForm extends React.Component<
         this.setState({ canBeInCase });
       })
       .catch();
-
-    // TODO rest call to run rule to get can be in case
-    // TODO rest call about "other?"
   };
 
   onDetailChange = (
