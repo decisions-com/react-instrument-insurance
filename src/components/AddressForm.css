@@ -1,2 +1,25 @@
 .mii-address-form {
+  width: 60rem;
+  margin: auto;
+}
+
+.mii-address-form .street {
+  padding-right: 1rem;
+}
+
+.mii-address-form .name-email,
+.mii-address-form .city-state-zip {
+  display: flex;
+  flex-direction: row;
+}
+.mii-address-form .name-email > .wrapped-input,
+.mii-address-form .city-state-zip > .wrapped-input {
+  width: 33%;
+  padding-right: 1rem;
+}
+
+.mii-address-form .city-state-zip label[for="#city"],
+.mii-address-form .city-state-zip label[for="#state"],
+.mii-address-form .city-state-zip label[for="#zip-code"] {
+  width: 20%;
 }

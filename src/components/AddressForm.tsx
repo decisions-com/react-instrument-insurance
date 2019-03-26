@@ -8,6 +8,7 @@ import {
   fetchCityStateFromZip
 } from "../api/AddressApi";
 import { debounce } from "debounce";
+import "./AddressForm.css";
 
 export interface AddressFormProps {}
 
@@ -97,18 +98,23 @@ export default class AddressForm extends React.Component<
     this.getCityAndState();
   };
 
+  onNormalizeClick = () => {};
+
   public render() {
     return (
       <MiiForm
+        className="mii-address-form"
         onSubmit={this.onSubmit}
         buttons={[
-          <button>Back</button>,
-          <button type="submit">Continue</button>
+          <button key="back">Back</button>,
+          <button key="submit" type="submit">
+            Continue
+          </button>
         ]}
       >
-        <section className="mii-address-form">
+        <section className="">
           <h3 className="form__title">Name and Email</h3>
-          <div className="mii-form--wrapping-group">
+          <div className="name-email">
             <WrapInput htmlFor="first-name" label="First Name">
               <input
                 value={this.state.firstName}
@@ -137,46 +143,53 @@ export default class AddressForm extends React.Component<
         </section>
         <section>
           <h3 className="form__title">Address</h3>
-          <WrapInput htmlFor="street1" label="Street">
-            <input
-              type="text"
-              id="street1"
-              onChange={this.onStreetOneChange}
-              value={this.state.address1}
-            />
-          </WrapInput>
-          <WrapInput htmlFor="street2" label="">
-            <input
-              type="text"
-              id="street2"
-              onChange={this.onStreetTwoChange}
-              value={this.state.address2}
-            />
-          </WrapInput>
-          <WrapInput htmlFor="City" label="City">
-            <input
-              type="text"
-              id="City"
-              onChange={this.onCityChange}
-              value={this.state.city}
-            />
-          </WrapInput>
-          <WrapInput htmlFor="State" label="State">
-            <input
-              type="text"
-              id="State"
-              onChange={this.onStateChange}
-              value={this.state.state}
-            />
-          </WrapInput>
-          <WrapInput htmlFor="Zip Code" label="Zip Code">
-            <input
-              type="text"
-              id="Zip Code"
-              onChange={this.onZipChange}
-              value={this.state.zip}
-            />
-          </WrapInput>
+          <div className="street">
+            <WrapInput htmlFor="street1" label="Street">
+              <input
+                type="text"
+                id="street1"
+                onChange={this.onStreetOneChange}
+                value={this.state.address1}
+              />
+            </WrapInput>
+            <WrapInput htmlFor="street2" label="">
+              <input
+                type="text"
+                id="street2"
+                onChange={this.onStreetTwoChange}
+                value={this.state.address2}
+              />
+            </WrapInput>
+          </div>
+          <div className="city-state-zip">
+            <WrapInput htmlFor="city" label="City">
+              <input
+                type="text"
+                id="city"
+                onChange={this.onCityChange}
+                value={this.state.city}
+              />
+            </WrapInput>
+            <WrapInput htmlFor="state" label="State">
+              <input
+                type="text"
+                id="state"
+                onChange={this.onStateChange}
+                value={this.state.state}
+              />
+            </WrapInput>
+            <WrapInput htmlFor="zip-code" label="Zip Code">
+              <input
+                type="text"
+                id="zip-code"
+                onChange={this.onZipChange}
+                value={this.state.zip}
+              />
+            </WrapInput>
+            {this.state.canNormalize && (
+              <button onClick={this.onNormalizeClick}>Normalize Address</button>
+            )}
+          </div>
         </section>
       </MiiForm>
     );

@@ -6,6 +6,7 @@ interface MiiFormProps {
   onSubmit: Function;
   buttons: React.ReactNode;
   row?: boolean;
+  className?: string;
 }
 
 export class MiiForm extends React.Component<MiiFormProps> {
@@ -15,9 +16,12 @@ export class MiiForm extends React.Component<MiiFormProps> {
   };
 
   public render() {
-    const { buttons, row, children } = this.props;
+    const { buttons, row, children, className } = this.props;
     return (
-      <form className="mii-form" onSubmit={this.onSubmit}>
+      <form
+        className={classNames("mii-form", className)}
+        onSubmit={this.onSubmit}
+      >
         <div className={classNames("mii-form__fields", { row })}>
           {children}
         </div>

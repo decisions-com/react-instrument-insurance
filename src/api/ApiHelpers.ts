@@ -77,6 +77,18 @@ export function getResponseJson<T>(
 }
 
 /**
+ * Convenience function to have 'null' query params for empty strings.
+ *
+ * Some end-points don't handle empty-string query params.
+ * Most UIs don't handle 'null' input values.
+ * @param param to encode
+ * @returns encoded part or null.
+ */
+export function encodeWithNullForEmpty(param: string) {
+  return param ? encodeURIComponent(param) : "null";
+}
+
+/**
  * Covers some idiosyncracies in the Decisions API, related to return types,
  * and common result wrappers.
  * @param url to fetch
