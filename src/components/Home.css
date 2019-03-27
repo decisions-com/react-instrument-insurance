@@ -1,5 +1,7 @@
 :root {
   --mii-blue: #0088cc;
+  --white-bg: rgba(255, 255, 255, 0.9);
+  --dark: #141f25;
 }
 
 .mii-home {
@@ -7,11 +9,32 @@
   display: flex;
   flex-direction: column;
 }
+
 .mii-home-header {
-  flex: 2;
-  margin: 0 auto;
-  padding: 4rem 2rem 0;
-  width: 66%;
+  /* margin: 0 auto; */
+}
+
+.mii-home__top-nav {
+  height: 2rem;
+  padding: 2rem 2rem 1rem;
+  /* padding-top: 3rem; */
+  display: flex;
+  flex-direction: row;
+  color: var(--mii-blue);
+  justify-content: space-between;
+  background: var(--dark);
+  align-items: baseline;
+}
+.mii-home__links a {
+  color: white;
+  text-decoration: none;
+}
+
+.mii-home-header {
+  /* height: 3rem; */
+  /* width: 100%; */
+  padding: 3rem 2rem 0;
+
   background-color: rgb(13, 84, 119, 0.75);
   color: white;
   display: flex;
@@ -22,7 +45,7 @@
 
 .mii-home__logo {
   height: 4rem;
-  margin: 1rem;
+  /* margin: 1rem; */
   /* background: white; */
 }
 
@@ -34,9 +57,13 @@
 
 .mii-home-content {
   font-size: 1.25rem;
-  flex: 5;
-  width: 66%;
-  background: rgba(255, 255, 255, 0.75);
-  margin: 1rem auto;
+  /* flex: 5; */
+  /* width: 46%; */
+  background: var(--white-bg);
+  margin: 3rem auto;
   padding: 2rem;
+}
+
+.mii-home-title {
+  text-align: center;
 }

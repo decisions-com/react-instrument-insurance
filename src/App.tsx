@@ -32,11 +32,15 @@ class App extends Component<{}, AppState> {
     return (
       <div className="mii-react-app">
         <LoginForm />
+        <Header
+          key="header"
+          title="Musical Instrument Insurance"
+          onApplyClick={this.onApplyClick}
+        />
         {this.state.route === Routes.HOME && (
           <HomeComponent onApplyClick={this.onApplyClick} />
         )}
         {this.state.route !== Routes.HOME && [
-          <Header key="header" title="Musical Instrument Insurance" />,
           <section key="section" className="mii-react-app-content">
             {this.state.route === Routes.DETAILS && <InstrumentForm />}
             {this.state.route === Routes.ADDRESS && <AddressForm />}

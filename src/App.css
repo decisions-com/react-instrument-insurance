@@ -65,3 +65,14 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+.mii-react-app button.inline {
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.mii-react-app button.secondary {
+  color: #0088cc;
+  /* color: white; */
+  background: rgba(63, 17, 23, 0.171);
+}

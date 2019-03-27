@@ -9,10 +9,6 @@ interface HomeComponentProps {
 const HomeComponent: React.FunctionComponent<HomeComponentProps> = props => {
   return (
     <div className="mii-home">
-      <header className="mii-home-header">
-        <img className="mii-home__logo" src={logo} />
-        <h1 className="mii-home-title">Musical Instrument Insurance</h1>
-      </header>
       <section className="mii-home-content">
         <p>
           Our instruments are some of the most loved and most delicate things we
