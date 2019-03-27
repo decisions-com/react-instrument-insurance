@@ -5,7 +5,8 @@ import WrapInput from "./common/WrapInput";
 import {
   CanNormalizeAddressArg,
   fetchCanNormalizeAddress,
-  fetchCityStateFromZip
+  fetchCityStateFromZip,
+  postDoNormalize
 } from "../api/AddressApi";
 import { debounce } from "debounce";
 import "./AddressForm.css";
@@ -23,11 +24,11 @@ export interface AddressFormState
     PersonDetails {
   /** {true} if can normalize address */
   canNormalize: boolean;
-  zip: string;
+  ZipCode: string;
 }
 
 const defaultState: AddressFormState = {
-  zip: "",
+  ZipCode: "",
   address1: "",
   address2: "",
   city: "",
@@ -51,8 +52,8 @@ export default class AddressForm extends React.Component<
   }, 150);
 
   getCityAndState = debounce(() => {
-    if (this.state.zip.length > 4) {
-      fetchCityStateFromZip(this.state.zip).then(value => {
+    if (this.state.ZipCode.length > 4) {
+      fetchCityStateFromZip(this.state.ZipCode).then(value => {
         const city = value["City Name"];
         const state = value["State Name"];
         if (city && state) {
@@ -91,14 +92,23 @@ export default class AddressForm extends React.Component<
   onStreetTwoChange = this.makeAddressChangeHandler("address2");
   onCityChange = this.makeAddressChangeHandler("city");
   onStateChange = this.makeAddressChangeHandler("state");
-  updateZip = this.makeAddressChangeHandler("zip");
+  updateZip = this.makeAddressChangeHandler("ZipCode");
 
   onZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.updateZip(e);
     this.getCityAndState();
   };
 
-  onNormalizeClick = () => {};
+  onNormalizeClick = () => {
+    postDoNormalize({
+      Address1: this.state.address1,
+      Address2: this.state.address2,
+      City: this.state.city,
+      State: this.state.state,
+      ZipCode: this.state.ZipCode,
+      DoNormalize: "Yes"
+    });
+  };
 
   public render() {
     return (
@@ -183,11 +193,11 @@ export default class AddressForm extends React.Component<
                 type="text"
                 id="zip-code"
                 onChange={this.onZipChange}
-                value={this.state.zip}
+                value={this.state.ZipCode}
               />
             </WrapInput>
             {this.state.canNormalize && (
-              <button onClick={this.onNormalizeClick}>Normalize Address</button>
+              <button onClick={this.onNormalizeClick}>USPS Format</button>
             )}
           </div>
         </section>

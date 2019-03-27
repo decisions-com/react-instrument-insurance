@@ -1,7 +1,8 @@
 import {
   getFlowIdUrl,
   getWrappedFetch,
-  encodeWithNullForEmpty
+  encodeWithNullForEmpty,
+  getWrappedPostFetch
 } from "./ApiHelpers";
 import { pipe } from "ramda";
 
@@ -17,6 +18,13 @@ export function fetchCanNormalizeAddress(address: CanNormalizeAddressArg) {
   return getWrappedFetch<boolean>(
     getCanNormalizeAddressUrl(address),
     "Normalize"
+  );
+}
+
+export function postDoNormalize(body: UspsNormalizedAddressBody) {
+  return getWrappedPostFetch<UspsNormalizedAddressResult>(
+    getFlowIdUrl("c5b73161-f0c1-11e7-abdf-1a4f32f7a749"),
+    body
   );
 }
 
@@ -65,4 +73,21 @@ export interface CanNormalizeAddressArg {
 
 export interface CanNormalizeAddressResult {
   Normalize: boolean;
+}
+
+export interface UspsNormalizedAddressResult {
+  Address1: string;
+  Address2: string;
+  City: string;
+  State: string;
+  ZipCode: string;
+}
+
+export interface UspsNormalizedAddressBody {
+  Address1: string;
+  Address2: string;
+  City: string;
+  State: string;
+  DoNormalize: string;
+  ZipCode: string;
 }

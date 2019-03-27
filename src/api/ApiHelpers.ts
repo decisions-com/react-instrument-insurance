@@ -51,8 +51,6 @@ type ResolvingCallback<T> = (json: T) => void;
 
 type Reject = (reason?: any) => void;
 
-const JSON = "JSON";
-
 /**
  * Handle edge cases where odd behavior from the Decisions (5.x) back-end and the
  * odd behaviors of the TypeScript fetch API collide. Namely, 500s and 403s are still
@@ -114,6 +112,36 @@ export function getWrappedFetch<T>(url: string, propertyName?: string) {
   });
 }
 
+// DRY this up with the above
+export function getWrappedPostFetch<T>(
+  url: string,
+  body: Object,
+  propertyName?: string
+) {
+  return new Promise<T>(async (resolve, reject) => {
+    try {
+      const response = await fetch(url, makePostFetchInit(body));
+      return getResponseJson(
+        response,
+        (json: any) => {
+          return propertyName ? resolve(json[propertyName]) : resolve(json);
+        },
+        reject
+      );
+    } catch (reason) {
+      reject(reason);
+    }
+  });
+}
+
+export function makePostFetchInit(body: Object): RequestInit {
+  return {
+    body: JSON.stringify({ outputtype: "RawJson", ...body }),
+    method: "POST",
+    mode: ApiConfig.getFetchMode()
+  };
+}
+
 function isJsonContentType(contentType: string | null) {
-  return !contentType ? false : contentType.toUpperCase().includes(JSON);
+  return !contentType ? false : contentType.toUpperCase().includes("JSON");
 }
