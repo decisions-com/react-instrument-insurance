@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
-import InstrumentForm from "./components/InstrumentForm";
 import LoginForm from "./components/LoginForm";
 import Header from "./components/common/Header";
 import HomeComponent from "./components/Home";
-import AddressForm from "./components/AddressForm";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Application } from "./components/common/Application";
 
 enum Routes {
   HOME = "home",
@@ -30,23 +30,20 @@ class App extends Component<{}, AppState> {
 
   render() {
     return (
-      <div className="mii-react-app">
-        <LoginForm />
-        <Header
-          key="header"
-          title="Musical Instrument Insurance"
-          onApplyClick={this.onApplyClick}
-        />
-        {this.state.route === Routes.HOME && (
-          <HomeComponent onApplyClick={this.onApplyClick} />
-        )}
-        {this.state.route !== Routes.HOME && [
-          <section key="section" className="mii-react-app-content">
-            {this.state.route === Routes.DETAILS && <InstrumentForm />}
-            {this.state.route === Routes.ADDRESS && <AddressForm />}
-          </section>
-        ]}
-      </div>
+      <Router>
+        <div className="mii-react-app">
+          <LoginForm />
+          <Header
+            key="header"
+            title="Musical Instrument Insurance"
+            onApplyClick={this.onApplyClick}
+          />
+          <Switch>
+            <Route path="/" component={HomeComponent} exact />
+            <Route path="/apply" component={Application} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

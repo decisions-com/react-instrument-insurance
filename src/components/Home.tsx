@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./Home.css";
-import logo from "./common/agileLogoTrans.png";
 
 interface HomeComponentProps {
   onApplyClick: React.EventHandler<React.MouseEvent>;
@@ -19,6 +18,7 @@ const HomeComponent: React.FunctionComponent<HomeComponentProps> = props => {
           At Agile Company we provide the some of the best coverage at rates to
           make you play a tune.
         </p>
+
         <div className="mii-home-controls">
           <button onClick={props.onApplyClick}>Apply Now</button>
         </div>

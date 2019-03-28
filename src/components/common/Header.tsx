@@ -1,5 +1,6 @@
 import * as React from "react";
 import logo from "./agileLogoTrans.png";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title: string;
@@ -18,9 +19,9 @@ const Header: React.FunctionComponent<HeaderProps> = ({
           <a href="/">For Schools</a> | <a href="/">About Us</a>
         </div>
         <div className="mii-home__links">
-          <button className="inline" onClick={onApplyClick}>
+          <Link className="mii-button inline" to="/apply/user-info">
             Apply Now
-          </button>
+          </Link>
         </div>
       </section>
       <header className="mii-home-header">

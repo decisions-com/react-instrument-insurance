@@ -10,8 +10,9 @@ import {
 } from "../api/AddressApi";
 import { debounce } from "debounce";
 import "./AddressForm.css";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
-export interface AddressFormProps {}
+export interface AddressFormProps extends RouteComponentProps {}
 
 export interface PersonDetails {
   firstName: string;
@@ -22,9 +23,10 @@ export interface PersonDetails {
 export interface AddressFormState
   extends CanNormalizeAddressArg,
     PersonDetails {
-  /** {true} if can normalize address */
+  /** true if can normalize address */
   canNormalize: boolean;
   ZipCode: string;
+  uspsFormatted?: boolean;
 }
 
 const defaultState: AddressFormState = {
@@ -39,10 +41,7 @@ const defaultState: AddressFormState = {
   email: ""
 };
 
-export default class AddressForm extends React.Component<
-  AddressFormProps,
-  AddressFormState
-> {
+class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
   state = { ...defaultState };
 
   canNormalizeAddress = debounce(() => {
@@ -64,7 +63,7 @@ export default class AddressForm extends React.Component<
   });
 
   onSubmit = () => {
-    // run the other flows
+    this.props.history.push("./instrument-info");
   };
 
   onFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +82,7 @@ export default class AddressForm extends React.Component<
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const value: Partial<AddressFormState> = {};
       value[key] = e.target.value;
+      value.uspsFormatted = false;
       this.setState(value as AddressFormState);
       this.canNormalizeAddress();
     };
@@ -107,7 +107,16 @@ export default class AddressForm extends React.Component<
       State: this.state.state,
       ZipCode: this.state.ZipCode,
       DoNormalize: "Yes"
-    });
+    }).then(value =>
+      this.setState({
+        address1: value.Address1,
+        address2: value.Address2,
+        city: value.City,
+        state: value.State,
+        ZipCode: value.ZipCode,
+        uspsFormatted: true
+      })
+    );
   };
 
   public render() {
@@ -116,8 +125,10 @@ export default class AddressForm extends React.Component<
         className="mii-address-form"
         onSubmit={this.onSubmit}
         buttons={[
-          <button key="back">Back</button>,
-          <button key="submit" type="submit">
+          <Link to="/" className="mii-button secondary" key="back">
+            Back
+          </Link>,
+          <button className="mii-button" key="submit" type="submit">
             Continue
           </button>
         ]}
@@ -167,7 +178,7 @@ export default class AddressForm extends React.Component<
                 type="text"
                 id="street2"
                 onChange={this.onStreetTwoChange}
-                value={this.state.address2}
+                value={this.state.address2 || ""}
               />
             </WrapInput>
           </div>
@@ -196,12 +207,19 @@ export default class AddressForm extends React.Component<
                 value={this.state.ZipCode}
               />
             </WrapInput>
-            {this.state.canNormalize && (
-              <button onClick={this.onNormalizeClick}>USPS Format</button>
-            )}
           </div>
+          {this.state.canNormalize && !this.state.uspsFormatted && (
+            <button
+              className="inline secondary"
+              onClick={this.onNormalizeClick}
+            >
+              USPS Format
+            </button>
+          )}
         </section>
       </MiiForm>
     );
   }
 }
+
+export default withRouter(AddressForm);

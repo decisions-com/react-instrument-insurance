@@ -55,6 +55,7 @@
   color: #61dafb;
 }
 
+.mii-react-app .mii-button,
 .mii-react-app button {
   border: none;
   background: #0088cc;
@@ -64,13 +65,16 @@
   border-radius: 0.3rem;
   font-weight: 500;
   cursor: pointer;
+  text-decoration: none;
 }
 
+.mii-react-app .mii-button.inline,
 .mii-react-app button.inline {
   font-size: 1rem;
   padding: 0.25rem 0.5rem;
 }
 
+.mii-react-app .mii-button.secondary,
 .mii-react-app button.secondary {
   color: #0088cc;
   /* color: white; */

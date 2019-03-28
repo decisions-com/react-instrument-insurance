@@ -14,7 +14,13 @@
 }
 
 .mii-form__buttons {
+  margin-top: 1rem;
   flex-direction: row;
+  justify-content: flex-end;
+}
+
+.mii-form__buttons > * {
+  margin-left: 1rem;
 }
 
 .mii-form--wrapping-group {

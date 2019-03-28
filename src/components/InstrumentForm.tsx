@@ -125,6 +125,7 @@ export default class InstrumentForm extends React.Component<
       <MiiForm
         onSubmit={this.onSubmit}
         buttons={<button type="submit">Submit</button>}
+        row
       >
         <section>
           <InstrumentDetails
