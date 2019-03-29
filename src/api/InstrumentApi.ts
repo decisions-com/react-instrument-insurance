@@ -9,15 +9,9 @@ import { PersonalHistory } from "./BackgroundApi";
 interface InstrumentSubTypesResult {
   "Instrument Sub Types": string[];
 }
-interface Image {
-  FileName: string;
-  /** Base 64 encoded file string */
-  Contents: string;
-}
-
 interface ShowImagePayload {
   outputtype: "RawJson";
-  Image: Image;
+  Image: CustomerProvidedImage;
 }
 
 interface BooleanRuleResult {
@@ -25,31 +19,6 @@ interface BooleanRuleResult {
 }
 // main flow, for reference:
 // http://localhost/decisions/Primary/StudioH/?FolderId=92cbb934-cb2f-11e4-90d4-005056c00008&pageName=List&flowId=a9cc6d4e-cb2f-11e4-90d4-005056c00008&action=edit
-
-/* show icon grid, post:
-  http://localhost/decisions/Primary/?RuleId=1ca7b0aa-b403-4c07-9770-348603d14104&Action=api
-
-  {
-  "outputtype": "RawJson",
-  "Image": {
-    "FileName": "StringValue",
-    "Contents": "AAA="
-  }
-}
-
-{
-  "Result": false
-}
-*/
-
-/*
- Show Image:
- http://localhost/decisions/Primary/?FlowId=a2607673-242b-11e6-80c4-00155d0aea03&Action=api
-
- {
-  "Image": "AAA="
- }
- */
 
 export function getInstrumentSubTypesUrl(type: string) {
   return (
@@ -82,6 +51,13 @@ export const getRateCalc = (body: RateCalcBody) => {
   return getWrappedPostFetch<RateCalcResult>(getRateUrl(), body);
 };
 
+// we don't _need_ this either, because we don't have to upload it
+// to get it to other parts of the page. we _will_ upload it during
+// the get premium bit though.
+export const uploadImage = (image: CustomerProvidedImage) => {
+  return getWrappedPostFetch(getFileUploadUrl(), image);
+};
+
 function getShowCaseRuleUrl(instrumentType: string) {
   // rule is named "IsPiano" which is too specific, IMO.
   return `${getRuleIdUrl(
@@ -109,12 +85,32 @@ function getShowIconGridUrl(instrumentType: string) {
   )}&Selection=${instrumentType}`;
 }
 function getRateUrl() {
-  return `${getFlowIdUrl("6062e203-cf98-11e7-abd9-1a4f32f7a749")}`;
+  return getFlowIdUrl("6062e203-cf98-11e7-abd9-1a4f32f7a749");
+}
+function getFileUploadUrl() {
+  return getFlowIdUrl("a2607673-242b-11e6-80c4-00155d0aea03");
+}
+
+export function createImageObj(file: File): Promise<CustomerProvidedImage> {
+  let reader = new FileReader();
+  return new Promise<CustomerProvidedImage>((resolve, reject) => {
+    reader.onloadend = () => {
+      const parts = (reader.result as string).split(",");
+      resolve({
+        FileName: file.name,
+        Contents: parts[1],
+        dataUrlTypeString: parts[0]
+      });
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 export interface CustomerProvidedImage {
   FileName: string;
-  Contents: string;
+  Contents: string | ArrayBuffer | null;
+  dataUrlTypeString?: string;
 }
 
 export interface RateCalcBody {
@@ -125,7 +121,7 @@ export interface RateCalcBody {
   Deductible: number;
   GigsPerYear: number;
   ProfessionalUse: boolean;
-  CustomerProvidedImage?: CustomerProvidedImage;
+  CustomerProvidedImage?: CustomerProvidedImage | null;
   PurchasePrice: number;
   "InstrumentType ": string;
   "Financial Risk": string;

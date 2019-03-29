@@ -3,11 +3,14 @@ import InstrumentDetails, { InstrumentDetailsInfo } from "./InstrumentDetails";
 import InstrumentPremium from "./InstrumentPremium";
 import "./common/MiiForm.css";
 import {
+  CustomerProvidedImage,
   getSubTypes,
   selectionIsOther,
   getShowCase,
   getRateCalc,
-  RateCalcBody
+  RateCalcBody,
+  createImageObj,
+  RateCalcResult
 } from "../api/InstrumentApi";
 import MiiForm from "./common/MiiForm";
 import { withRouter, RouteComponentProps } from "react-router";
@@ -19,6 +22,8 @@ interface InstrumentFormProps extends RouteComponentProps {}
 interface InstrumentFormState extends InstrumentDetailsInfo {
   premiumComment: string;
   premium: number;
+  image?: CustomerProvidedImage;
+  rateCalcResult?: RateCalcResult;
 }
 
 let defaultState: InstrumentFormState = {
@@ -120,7 +125,8 @@ class InstrumentForm extends React.Component<
       .then(result => {
         this.setState({
           premiumComment: result.RichTextForAverageCalculation,
-          premium: result.AdjustedPremium
+          premium: result.AdjustedPremium,
+          rateCalcResult: result
         });
       })
       .catch();
@@ -128,6 +134,15 @@ class InstrumentForm extends React.Component<
 
   onSubmit = () => {
     // TODO submit
+  };
+
+  onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      createImageObj(e.target.files[0]).then(image => {
+        this.setState({ image });
+        this.calculateRate();
+      });
+    }
   };
 
   render() {
@@ -150,6 +165,7 @@ class InstrumentForm extends React.Component<
             onStorageChange={this.onStorageChange}
             onHardShellChange={this.onHardShellChange}
             onProChange={this.onProChange}
+            onImageChange={this.onImageChange}
           />
         </section>
         <section className="section">
@@ -175,7 +191,7 @@ function getRateCalcBody(
     Deductible: 60, // hard-coded in current flow.
     GigsPerYear: 10, // hard-coded in current flow.
     ProfessionalUse: !!state.wasPlayedPro,
-    CustomerProvidedImage: null as any, // TODO
+    CustomerProvidedImage: state.image || null,
     PurchasePrice: state.price,
     "InstrumentType ": state.instrumentType,
     "Financial Risk": "", // seems null/empty in current flow.

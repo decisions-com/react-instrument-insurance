@@ -1,1 +1,12 @@
 /* .instrument-details {} */
+
+.image-feedback {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.confidence-icon {
+  width: 1.5rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}

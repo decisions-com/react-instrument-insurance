@@ -2,6 +2,8 @@ import React from "react";
 import WrapInput from "./common/WrapInput";
 import Checkbox from "./common/Checkbox";
 import SelectOptions from "./common/SelectOptions";
+import { RateCalcResult } from "../api/InstrumentApi";
+import "./InstrumentDetails.css";
 
 const defaultProps = {};
 
@@ -21,6 +23,7 @@ export interface InstrumentDetailsInfo {
   replacementCost: number;
   storageType: string;
   storageTypes: string[];
+  rateCalcResult?: RateCalcResult;
 }
 
 export interface InstrumentDetailsProps extends InstrumentDetailsInfo {
@@ -34,6 +37,7 @@ export interface InstrumentDetailsProps extends InstrumentDetailsInfo {
   onStorageChange: React.ChangeEventHandler;
   onHardShellChange: (label: string, selected: boolean) => void;
   onProChange: (label: string, selected: boolean) => void;
+  onImageChange: React.ChangeEventHandler;
 }
 
 export default class InstrumentDetails extends React.Component<
@@ -130,20 +134,42 @@ export default class InstrumentDetails extends React.Component<
         {this.props.canBeInCase && (
           <Checkbox
             label="Kept in hard shell case"
-            checked={this.props.wasStoredInCase as boolean}
+            checked={!!this.props.wasStoredInCase}
             onChange={this.props.onHardShellChange}
           />
         )}
         <div>
           <Checkbox
             label="Played professionally"
-            checked={this.props.wasPlayedPro as boolean}
-            onChange={() => {}}
+            checked={!!this.props.wasPlayedPro}
+            onChange={this.props.onProChange}
           />
           <aside>Public performance use more than once per year</aside>
         </div>
-        <p>TODO file up-loader</p>
+        <div className="mii-image-uploader">
+          <WrapInput htmlFor="instr-image" label="Upload Image">
+            <input
+              id="instr-image"
+              type="file"
+              onChange={this.props.onImageChange}
+            />
+          </WrapInput>
+          {this.props.rateCalcResult &&
+            this.props.rateCalcResult.ImageConfidence && (
+              <div className="image-feedback">
+                <img
+                  className="confidence-icon"
+                  src={
+                    "data:image/gif;base64," + this.props.rateCalcResult.Icon
+                  }
+                />
+                {this.props.rateCalcResult.ImageConfidence}
+              </div>
+            )}
+        </div>
       </React.Fragment>
     );
   }
 }
+
+function getConfidence() {}

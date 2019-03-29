@@ -1,6 +1,7 @@
 .mii-form {
   display: flex;
   flex-direction: column;
+  padding: 0 2rem;
 }
 
 .mii-form__fields,
@@ -15,6 +16,7 @@
 
 .mii-form__fields.row > .section {
   flex: 1;
+  margin: 0 1rem;
 }
 
 .mii-form__buttons {

@@ -1,8 +1,10 @@
 import * as React from "react";
 import "./InstrumentPremium.css";
+import { CustomerProvidedImage } from "../api/InstrumentApi";
 export interface InstrumentPremiumProps {
   premium: number;
   premiumComment: string;
+  image?: CustomerProvidedImage;
 }
 
 let toDollars = (num: Number) =>
@@ -23,6 +25,16 @@ export default class InstrumentPremium extends React.Component<
           {toDollars(this.props.premium)}
         </div>
         <p>{this.props.premiumComment}</p>
+        {this.props.image && (
+          <img
+            className="instrument-premium__image"
+            src={
+              (this.props.image.dataUrlTypeString +
+                "," +
+                this.props.image.Contents) as string
+            }
+          />
+        )}
       </div>
     );
   }
