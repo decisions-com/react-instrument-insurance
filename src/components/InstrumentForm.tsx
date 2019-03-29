@@ -5,14 +5,18 @@ import "./common/MiiForm.css";
 import {
   getSubTypes,
   selectionIsOther,
-  getShowCase
+  getShowCase,
+  getRateCalc,
+  RateCalcBody
 } from "../api/InstrumentApi";
 import MiiForm from "./common/MiiForm";
+import { withRouter, RouteComponentProps } from "react-router";
+import { BackgroundCheck } from "../api/BackgroundApi";
 
-interface InstrumentFormProps {}
+interface InstrumentFormProps extends RouteComponentProps {}
 
 interface InstrumentFormState extends InstrumentDetailsInfo {
-  amountLess: number;
+  premiumComment: string;
   premium: number;
 }
 
@@ -37,18 +41,29 @@ let defaultState: InstrumentFormState = {
     "Climate Controlled Storage",
     "Mobile Storage"
   ],
-  premium: 50,
-  amountLess: 12.0,
+  premium: 0,
+  premiumComment: "",
   price: 0,
   year: 0,
+  make: "",
+  model: "",
   replacementCost: 0
 };
 
-export default class InstrumentForm extends React.Component<
+class InstrumentForm extends React.Component<
   InstrumentFormProps,
   InstrumentFormState
 > {
   state = { ...defaultState };
+
+  makeValueChangeHandler(key: keyof InstrumentFormState) {
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const partial: Partial<InstrumentFormState> = {};
+      partial[key] = e.target.value;
+      this.setState(partial as InstrumentFormState);
+      this.calculateRate();
+    };
+  }
 
   onTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const instrumentType = e.target.value;
@@ -72,37 +87,22 @@ export default class InstrumentForm extends React.Component<
       .catch();
   };
 
-  onDetailChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
-    this.setState({ instrumentDetail: e.target.value });
-    console.log(e.target.value);
-    // TODO detail value changed
-  };
-
-  onYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // TODO rest call for updating updating premium
-    this.setState({ year: Number.parseInt(e.target.value, 10) });
-    console.log(e.target.value);
-  };
+  onDetailChange = this.makeValueChangeHandler("instrumentDetail");
+  onYearChange = this.makeValueChangeHandler("year");
+  onMakeChange = this.makeValueChangeHandler("make");
+  onModelChange = this.makeValueChangeHandler("model");
 
   onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ price: Number.parseInt(e.target.value, 10) });
-    // TODO rest call for updating updating premium
-    console.log(e.target.value);
+    this.calculateRate();
   };
 
   onReplacementCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ replacementCost: Number.parseInt(e.target.value, 10) });
-    // TODO rest call for updating updating premium
-    console.log(e.target.value);
+    this.calculateRate();
   };
 
-  onStorageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ storageType: e.target.value });
-    // TODO rest call for updating updating premium
-    console.log(e.target.value);
-  };
+  onStorageChange = this.makeValueChangeHandler("storageType");
 
   onHardShellChange = (label: string, wasStoredInCase: boolean) => {
     this.setState({ wasStoredInCase });
@@ -116,11 +116,21 @@ export default class InstrumentForm extends React.Component<
     console.log(label, wasPlayedPro);
   };
 
+  calculateRate = () => {
+    getRateCalc(getRateCalcBody(this.props, this.state)).then(result => {
+      this.setState({
+        premiumComment: result.RichTextForAverageCalculation,
+        premium: result.AdjustedPremium
+      });
+    });
+  };
+
   onSubmit = () => {
     // TODO submit
   };
 
   render() {
+    console.log(this.props.location.state);
     return (
       <MiiForm
         onSubmit={this.onSubmit}
@@ -133,6 +143,8 @@ export default class InstrumentForm extends React.Component<
             onTypeChange={this.onTypeChange}
             onDetailChange={this.onDetailChange}
             onYearChange={this.onYearChange}
+            onMakeChange={this.onMakeChange}
+            onModelChange={this.onModelChange}
             onPriceChange={this.onPriceChange}
             onReplacementCostChange={this.onReplacementCostChange}
             onStorageChange={this.onStorageChange}
@@ -146,4 +158,29 @@ export default class InstrumentForm extends React.Component<
       </MiiForm>
     );
   }
+}
+
+export default withRouter(InstrumentForm);
+
+function getRateCalcBody(
+  props: InstrumentFormProps,
+  state: InstrumentFormState
+): RateCalcBody {
+  const background = props.location.state as BackgroundCheck;
+  return {
+    YearMade: state.year,
+    Storage: state.storageType,
+    "Replacement Cost": state.replacementCost,
+    "Hard Case": !!state.wasStoredInCase,
+    Deductible: 60, // hard-coded in current flow.
+    GigsPerYear: 10, // hard-coded in current flow.
+    ProfessionalUse: !!state.wasPlayedPro,
+    CustomerProvidedImage: null as any, // TODO
+    PurchasePrice: state.price,
+    "InstrumentType ": state.instrumentType,
+    "Financial Risk": "", // seems null/empty in current flow.
+    Make: state.make,
+    Model: state.model,
+    History: background.history
+  };
 }

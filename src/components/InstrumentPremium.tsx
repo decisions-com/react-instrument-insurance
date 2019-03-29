@@ -2,7 +2,7 @@ import * as React from "react";
 import "./InstrumentPremium.css";
 export interface InstrumentPremiumProps {
   premium: number;
-  amountLess: number;
+  premiumComment: string;
 }
 
 let toDollars = (num: Number) =>
@@ -22,10 +22,7 @@ export default class InstrumentPremium extends React.Component<
         <div className="instrument-premium__value">
           {toDollars(this.props.premium)}
         </div>
-        <p>
-          {toDollars(this.props.amountLess)}
-          &nbsp; Less Expensive Than Average
-        </p>
+        <p>{this.props.premiumComment}</p>
       </div>
     );
   }

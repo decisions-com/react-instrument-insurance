@@ -11,6 +11,7 @@ import {
 import { debounce } from "debounce";
 import "./AddressForm.css";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { doBackgroundChecks } from "../api/BackgroundApi";
 
 export interface AddressFormProps extends RouteComponentProps {}
 
@@ -63,8 +64,19 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
   });
 
   onSubmit = () => {
-    this.props.history.push("./instrument-info");
+    doBackgroundChecks(
+      this.state.firstName,
+      this.state.lastName,
+      getStreetAddress(this.state),
+      this.state.ZipCode
+    ) // go on after both resolve:
+      .then(backgroundCheck =>
+        this.props.history.push("./instrument-info", backgroundCheck)
+      ) // or go on without it
+      .catch(() => this.props.history.push("./instrument-info"));
   };
+
+  goNext() {}
 
   onFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ firstName: e.target.value });
@@ -99,7 +111,8 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
     this.getCityAndState();
   };
 
-  onNormalizeClick = () => {
+  onNormalizeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     postDoNormalize({
       Address1: this.state.address1,
       Address2: this.state.address2,
@@ -223,3 +236,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
 }
 
 export default withRouter(AddressForm);
+
+function getStreetAddress(state: AddressFormState) {
+  return [state.address1, state.address2, state.city, state.state].join(" ");
+}

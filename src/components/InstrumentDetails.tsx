@@ -16,6 +16,8 @@ export interface InstrumentDetailsInfo {
   wasPlayedPro?: boolean;
   price: number;
   year: number;
+  make: string;
+  model: string;
   replacementCost: number;
   storageType: string;
   storageTypes: string[];
@@ -25,6 +27,8 @@ export interface InstrumentDetailsProps extends InstrumentDetailsInfo {
   onTypeChange: React.ChangeEventHandler;
   onDetailChange: React.ChangeEventHandler;
   onYearChange: React.ChangeEventHandler;
+  onMakeChange: React.ChangeEventHandler;
+  onModelChange: React.ChangeEventHandler;
   onPriceChange: React.ChangeEventHandler;
   onReplacementCostChange: React.ChangeEventHandler;
   onStorageChange: React.ChangeEventHandler;
@@ -73,7 +77,28 @@ export default class InstrumentDetails extends React.Component<
           </WrapInput>
         )}
         <WrapInput htmlFor="year" label="Year Made" required>
-          <input id="year" type="number" onChange={this.props.onYearChange} />
+          <input
+            id="year"
+            type="number"
+            onChange={this.props.onYearChange}
+            value={this.props.year}
+          />
+        </WrapInput>
+        <WrapInput htmlFor="make" label="Make" required>
+          <input
+            id="make"
+            type="text"
+            onChange={this.props.onMakeChange}
+            value={this.props.make}
+          />
+        </WrapInput>
+        <WrapInput htmlFor="model" label="Model" required>
+          <input
+            id="model"
+            type="text"
+            onChange={this.props.onModelChange}
+            value={this.props.model}
+          />
         </WrapInput>
         <WrapInput htmlFor="price" label="Purchase Price" required>
           <input

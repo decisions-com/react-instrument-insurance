@@ -1,16 +1,14 @@
 import {
   getFlowIdUrl,
-  getServiceEndPointUrl,
-  getResponseJson,
   getRuleIdUrl,
-  getWrappedFetch
+  getWrappedFetch,
+  getWrappedPostFetch
 } from "./ApiHelpers";
-import { ApiConfig } from "./ApiConfig";
+import { PersonalHistory } from "./BackgroundApi";
 
 interface InstrumentSubTypesResult {
   "Instrument Sub Types": string[];
 }
-
 interface Image {
   FileName: string;
   /** Base 64 encoded file string */
@@ -25,10 +23,6 @@ interface ShowImagePayload {
 interface BooleanRuleResult {
   Result: boolean;
 }
-
-// left side - Menu Items
-// Apply, etc.
-
 // main flow, for reference:
 // http://localhost/decisions/Primary/StudioH/?FolderId=92cbb934-cb2f-11e4-90d4-005056c00008&pageName=List&flowId=a9cc6d4e-cb2f-11e4-90d4-005056c00008&action=edit
 
@@ -48,12 +42,6 @@ interface BooleanRuleResult {
 }
 */
 
-// /*
-// Selection is Other:
-// http://localhost/decisions/Primary/?RuleId=465e4c3d-4932-4645-83c9-0dceb4c9276a&Action=api&outputtype=RawJson&Selection=null
-
-// */
-
 /*
  Show Image:
  http://localhost/decisions/Primary/?FlowId=a2607673-242b-11e6-80c4-00155d0aea03&Action=api
@@ -62,61 +50,6 @@ interface BooleanRuleResult {
   "Image": "AAA="
  }
  */
-
-/*
- Rate Calc, POST
- http://localhost/decisions/Primary/?FlowId=6062e203-cf98-11e7-abd9-1a4f32f7a749&Action=api
-
- body:
- {
-  "outputtype": "RawJson",
-  "YearMade": 0,
-  "Storage": "StringValue",
-  "Replacement Cost": 0,
-  "Hard Case": false,
-  "Deductible": 0,
-  "GigsPerYear": 0,
-  "ProfessionalUse": false,
-  "CustomerProvidedImage": {
-    "FileName": "StringValue",
-    "Contents": "AAA="
-  },
-  "PurchasePrice": 0,
-  "InstrumentType ": "StringValue",
-  "Financial Risk": "StringValue",
-  "Make": "StringValue",
-  "Model": "StringValue",
-  "History": {
-    "LifetimeValue": 0,
-    "TotalMonthlyPremiumValue": 0,
-    "NearestPolicyExpiration": "0001-01-01T00:00:00",
-    "NumberOfActivePolicies": 0,
-    "CustomerSinceDate": "0001-01-01T00:00:00",
-    "CustomerServiceWarning": false,
-    "LifetimeClaimValue": 0,
-    "ClaimValue180Days": 0,
-    "LifetimeClaimCount": 0,
-    "ClaimsCount180Days": 0,
-    "LatePayments180Days": 0
-  }
-}
-// looks like I'll need to run parts of the other after-address sub-flows to get the history info here.
-
-result:
-{
-  "RichTextForAverageCalculation": "StringValue",
-  "AdjustedPremium": 0,
-  "ImageConfidence": "StringValue",
-  "Icon": "AAA=",
-  "PropertyRisk": "StringValue"
-}
-*/
-
-// Credit Reporting
-// http://localhost/decisions/Primary/H/?FlowId=9da3b919-9cc6-11e8-9672-509a4c510032&action=viewapi
-
-// Customer history integration:
-// http://localhost/decisions/Primary/H/?FlowId=5c80b985-9f06-11e8-9672-509a4c510032&action=viewapi
 
 export function getInstrumentSubTypesUrl(type: string) {
   return (
@@ -145,6 +78,10 @@ export const getHideOtherField = (instrumentType: string) =>
 // not doing this one... not going to send a base64 encoded image,
 // just to check if it exists on the server side.
 
+export const getRateCalc = (body: RateCalcBody) => {
+  return getWrappedPostFetch<RateCalcResult>(getRateUrl(), body);
+};
+
 function getShowCaseRuleUrl(instrumentType: string) {
   // rule is named "IsPiano" which is too specific, IMO.
   return `${getRuleIdUrl(
@@ -170,4 +107,37 @@ function getShowIconGridUrl(instrumentType: string) {
   return `${getRuleIdUrl(
     "1ca7b0aa-b403-4c07-9770-348603d14104"
   )}&Selection=${instrumentType}`;
+}
+function getRateUrl() {
+  return `${getFlowIdUrl("6062e203-cf98-11e7-abd9-1a4f32f7a749")}`;
+}
+
+export interface CustomerProvidedImage {
+  FileName: string;
+  Contents: string;
+}
+
+export interface RateCalcBody {
+  YearMade: number;
+  Storage: string;
+  "Replacement Cost": number;
+  "Hard Case": boolean;
+  Deductible: number;
+  GigsPerYear: number;
+  ProfessionalUse: boolean;
+  CustomerProvidedImage?: CustomerProvidedImage;
+  PurchasePrice: number;
+  "InstrumentType ": string;
+  "Financial Risk": string;
+  Make: string;
+  Model: string;
+  History: PersonalHistory;
+}
+
+export interface RateCalcResult {
+  RichTextForAverageCalculation: string;
+  AdjustedPremium: number;
+  ImageConfidence: string;
+  Icon: string; // base64 encoded image
+  PropertyRisk: string;
 }
