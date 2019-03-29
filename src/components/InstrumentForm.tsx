@@ -12,6 +12,7 @@ import {
 import MiiForm from "./common/MiiForm";
 import { withRouter, RouteComponentProps } from "react-router";
 import { BackgroundCheck } from "../api/BackgroundApi";
+import { debounce } from "debounce";
 
 interface InstrumentFormProps extends RouteComponentProps {}
 
@@ -106,38 +107,37 @@ class InstrumentForm extends React.Component<
 
   onHardShellChange = (label: string, wasStoredInCase: boolean) => {
     this.setState({ wasStoredInCase });
-    // TODO rest call for updating updating premium
-    console.log(label, wasStoredInCase);
+    this.calculateRate();
   };
 
   onProChange = (label: string, wasPlayedPro: boolean) => {
     this.setState({ wasPlayedPro });
-    // TODO rest call for updating updating premium
-    console.log(label, wasPlayedPro);
+    this.calculateRate();
   };
 
-  calculateRate = () => {
-    getRateCalc(getRateCalcBody(this.props, this.state)).then(result => {
-      this.setState({
-        premiumComment: result.RichTextForAverageCalculation,
-        premium: result.AdjustedPremium
-      });
-    });
-  };
+  calculateRate = debounce(() => {
+    getRateCalc(getRateCalcBody(this.props, this.state))
+      .then(result => {
+        this.setState({
+          premiumComment: result.RichTextForAverageCalculation,
+          premium: result.AdjustedPremium
+        });
+      })
+      .catch();
+  }, 150);
 
   onSubmit = () => {
     // TODO submit
   };
 
   render() {
-    console.log(this.props.location.state);
     return (
       <MiiForm
         onSubmit={this.onSubmit}
         buttons={<button type="submit">Submit</button>}
         row
       >
-        <section>
+        <section className="section">
           <InstrumentDetails
             {...this.state}
             onTypeChange={this.onTypeChange}
@@ -152,7 +152,7 @@ class InstrumentForm extends React.Component<
             onProChange={this.onProChange}
           />
         </section>
-        <section>
+        <section className="section">
           <InstrumentPremium {...this.state} />
         </section>
       </MiiForm>

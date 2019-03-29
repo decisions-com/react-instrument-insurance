@@ -146,7 +146,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
           </button>
         ]}
       >
-        <section className="">
+        <section className="section">
           <h3 className="form__title">Name and Email</h3>
           <div className="name-email">
             <WrapInput htmlFor="first-name" label="First Name">
@@ -175,7 +175,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
             </WrapInput>
           </div>
         </section>
-        <section>
+        <section className="section">
           <h3 className="form__title">Address</h3>
           <div className="street">
             <WrapInput htmlFor="street1" label="Street">
@@ -220,15 +220,15 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
                 value={this.state.ZipCode}
               />
             </WrapInput>
+            {this.state.canNormalize && !this.state.uspsFormatted && (
+              <button
+                className="inline secondary"
+                onClick={this.onNormalizeClick}
+              >
+                USPS Format
+              </button>
+            )}
           </div>
-          {this.state.canNormalize && !this.state.uspsFormatted && (
-            <button
-              className="inline secondary"
-              onClick={this.onNormalizeClick}
-            >
-              USPS Format
-            </button>
-          )}
         </section>
       </MiiForm>
     );

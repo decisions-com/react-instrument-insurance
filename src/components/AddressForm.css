@@ -1,5 +1,5 @@
 .mii-address-form {
-  width: 60rem;
+  max-width: 60rem;
   margin: auto;
 }
 
@@ -11,6 +11,7 @@
 .mii-address-form .city-state-zip {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .mii-address-form .name-email > .wrapped-input,
 .mii-address-form .city-state-zip > .wrapped-input {

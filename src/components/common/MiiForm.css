@@ -13,6 +13,10 @@
   flex-direction: row;
 }
 
+.mii-form__fields.row > .section {
+  flex: 1;
+}
+
 .mii-form__buttons {
   margin-top: 1rem;
   flex-direction: row;

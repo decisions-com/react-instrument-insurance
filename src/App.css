@@ -71,12 +71,13 @@
 .mii-react-app .mii-button.inline,
 .mii-react-app button.inline {
   font-size: 1rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.7rem;
+  margin: 1.5rem 0;
 }
 
 .mii-react-app .mii-button.secondary,
 .mii-react-app button.secondary {
   color: #0088cc;
-  /* color: white; */
-  background: rgba(63, 17, 23, 0.171);
+  background: white;
+  border: solid 1px #0088cc;
 }
