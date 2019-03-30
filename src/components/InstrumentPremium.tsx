@@ -25,7 +25,7 @@ export default class InstrumentPremium extends React.Component<
           {toDollars(this.props.premium)}
         </div>
         <p>{this.props.premiumComment}</p>
-        {this.props.image && (
+        {this.props.image ? (
           <img
             className="instrument-premium__image"
             src={
@@ -34,6 +34,10 @@ export default class InstrumentPremium extends React.Component<
                 this.props.image.Contents) as string
             }
           />
+        ) : (
+          <div className="instrument-premium__image-placeholder">
+            Upload a picture of your instrument for a discount.
+          </div>
         )}
       </div>
     );

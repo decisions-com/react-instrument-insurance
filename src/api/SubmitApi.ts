@@ -11,15 +11,15 @@ export function submitApplication(
   const body: ApplicationBody = {
     PolicyApp: policyApp,
     History: history,
-    CustomerPhoto: photo
+    CustomerPhoto: photo || null
   };
-  return getWrappedPostFetch(url, body);
+  return getWrappedPostFetch<string>(url, body, "confirmation");
 }
 
 export interface ApplicationBody {
   PolicyApp: PolicyApp;
   History: PersonalHistory;
-  CustomerPhoto?: CustomerProvidedImage;
+  CustomerPhoto: CustomerProvidedImage | null; // must be defined on body, but can be null
 }
 
 export interface PolicyApp {
@@ -52,4 +52,8 @@ export interface PolicyApp {
   Deleted: boolean;
   DeletedBy: string;
   DeletedOn: Date;
+}
+
+interface ApplicationResult {
+  confirmation: string;
 }

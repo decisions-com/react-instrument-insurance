@@ -18,6 +18,7 @@ import { BackgroundCheck } from "../api/BackgroundApi";
 import { debounce } from "debounce";
 import { PolicyApp, submitApplication } from "../api/SubmitApi";
 import { AddressFormState } from "./AddressForm";
+import { Link } from "react-router-dom";
 
 interface InstrumentFormProps extends RouteComponentProps {}
 
@@ -142,8 +143,9 @@ class InstrumentForm extends React.Component<
     const app = getPolicyApp(this.props, this.state);
     const history = (this.props.location.state as BackgroundCheck).history;
     submitApplication(app, history, this.state.image).then(result => {
-      console.log(result);
-      window.alert("submitted application");
+      // console.log(result);
+      // window.alert("submitted application");
+      this.props.history.push("./confirmation", result);
     });
   };
 
@@ -160,7 +162,14 @@ class InstrumentForm extends React.Component<
     return (
       <MiiForm
         onSubmit={this.onSubmit}
-        buttons={<button type="submit">Submit</button>}
+        buttons={[
+          <Link to="./user-info" className="mii-button secondary" key="back">
+            Back
+          </Link>,
+          <button key="submit" type="submit">
+            Submit
+          </button>
+        ]}
         row
       >
         <section className="section">

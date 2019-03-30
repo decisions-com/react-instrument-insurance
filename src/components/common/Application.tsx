@@ -2,6 +2,7 @@ import * as React from "react";
 import { Route, match } from "react-router";
 import InstrumentForm from "../InstrumentForm";
 import AddressForm from "../AddressForm";
+import { Confirmation } from "../Confirmation";
 
 export interface ApplyProps {
   match: match;
@@ -15,6 +16,7 @@ export function Application({ match }: ApplyProps) {
         path={`${match.path}/instrument-info`}
         component={InstrumentForm}
       />
+      <Route path={`${match.path}/confirmation`} component={Confirmation} />
     </section>
   );
 }

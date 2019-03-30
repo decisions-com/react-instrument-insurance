@@ -42,11 +42,11 @@
 }
 
 .mii-react-app-content {
-  flex: 1;
+  /* flex: 1; */
   background: #f8f8f8;
   padding: 1rem;
   width: 66%;
-  margin: auto;
+  margin: 2rem auto;
   box-sizing: border-box;
   margin-bottom: 1rem;
 }
