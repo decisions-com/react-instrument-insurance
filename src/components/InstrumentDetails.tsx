@@ -5,8 +5,6 @@ import SelectOptions from "./common/SelectOptions";
 import { RateCalcResult } from "../api/InstrumentApi";
 import "./InstrumentDetails.css";
 
-const defaultProps = {};
-
 export interface InstrumentDetailsInfo {
   instrumentType: string;
   instrumentTypes: string[];
@@ -164,6 +162,10 @@ export default class InstrumentDetails extends React.Component<
                   }
                 />
                 {this.props.rateCalcResult.ImageConfidence}
+                <aside className="warning">
+                  * Images submitted with low confidence may result in a
+                  re-submission
+                </aside>
               </div>
             )}
         </div>
@@ -171,5 +173,3 @@ export default class InstrumentDetails extends React.Component<
     );
   }
 }
-
-function getConfidence() {}
