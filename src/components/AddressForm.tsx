@@ -71,7 +71,10 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
       this.state.ZipCode
     ) // go on after both resolve:
       .then(backgroundCheck =>
-        this.props.history.push("./instrument-info", backgroundCheck)
+        this.props.history.push("./instrument-info", {
+          ...this.state,
+          ...backgroundCheck
+        })
       ) // or go on without it
       .catch(() => this.props.history.push("./instrument-info"));
   };

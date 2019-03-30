@@ -16,6 +16,8 @@ import MiiForm from "./common/MiiForm";
 import { withRouter, RouteComponentProps } from "react-router";
 import { BackgroundCheck } from "../api/BackgroundApi";
 import { debounce } from "debounce";
+import { PolicyApp, submitApplication } from "../api/SubmitApi";
+import { AddressFormState } from "./AddressForm";
 
 interface InstrumentFormProps extends RouteComponentProps {}
 
@@ -24,6 +26,8 @@ interface InstrumentFormState extends InstrumentDetailsInfo {
   premium: number;
   image?: CustomerProvidedImage;
   rateCalcResult?: RateCalcResult;
+  GigsPerYear: number;
+  Deductible: number;
 }
 
 let defaultState: InstrumentFormState = {
@@ -53,7 +57,9 @@ let defaultState: InstrumentFormState = {
   year: 0,
   make: "",
   model: "",
-  replacementCost: 0
+  replacementCost: 0,
+  GigsPerYear: 10,
+  Deductible: 60
 };
 
 class InstrumentForm extends React.Component<
@@ -133,7 +139,12 @@ class InstrumentForm extends React.Component<
   }, 150);
 
   onSubmit = () => {
-    // TODO submit
+    const app = getPolicyApp(this.props, this.state);
+    const history = (this.props.location.state as BackgroundCheck).history;
+    submitApplication(app, history, this.state.image).then(result => {
+      console.log(result);
+      window.alert("submitted application");
+    });
   };
 
   onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,5 +209,43 @@ function getRateCalcBody(
     Make: state.make,
     Model: state.model,
     History: background.history
+  };
+}
+
+function getPolicyApp(
+  props: InstrumentFormProps,
+  state: InstrumentFormState
+): PolicyApp {
+  const userInfo = props.location.state as AddressFormState & BackgroundCheck;
+  return {
+    FinancialRisk: "",
+    PropertyRisk: "", // ?
+    PremiumValue: state.premium,
+    CustomerProvidedImage: (state.image && state.image.FileName) || null,
+    ApplicantEmail: userInfo.email,
+    AddressState: userInfo.state,
+    City: userInfo.city,
+    GigsPerYear: 10,
+    StreetAddress: `${userInfo.address1} / ${userInfo.address2}`,
+    ReplacementCost: state.replacementCost,
+    PurchasePrice: state.price,
+    InstrumentSubType: state.instrumentDetail,
+    InstrumentType: state.instrumentType,
+    Deductible: 60,
+    UsedProfessionally: !!state.wasPlayedPro,
+    YearMade: state.year.toString(),
+    HardCase: !!state.wasStoredInCase,
+    ApplicantLastName: userInfo.lastName,
+    ApplicantFirstName: userInfo.firstName,
+    ApplicantZipCode: userInfo.ZipCode,
+    StorageLocation: state.storageType,
+    TypeOfTransport: "",
+    Make: state.make,
+    Model: state.model,
+    Id: "",
+    ExtensionId: "",
+    Deleted: false,
+    DeletedBy: "",
+    DeletedOn: new Date()
   };
 }
