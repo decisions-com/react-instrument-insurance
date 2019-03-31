@@ -181,7 +181,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
         <section className="section">
           <h3 className="form__title">Address</h3>
           <div className="street">
-            <WrapInput htmlFor="street1" label="Street">
+            <WrapInput htmlFor="street1" label="Address Line 1">
               <input
                 type="text"
                 id="street1"
@@ -189,7 +189,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
                 value={this.state.address1}
               />
             </WrapInput>
-            <WrapInput htmlFor="street2" label="">
+            <WrapInput htmlFor="street2" label="Address Line 2">
               <input
                 type="text"
                 id="street2"

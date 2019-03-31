@@ -4,7 +4,7 @@
 }
 
 .mii-address-form .street {
-  padding-right: 1rem;
+  /* padding-right: 1rem; */
 }
 
 .mii-address-form .name-email,
@@ -13,14 +13,31 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.mii-address-form .name-email > .wrapped-input,
-.mii-address-form .city-state-zip > .wrapped-input {
-  width: 33%;
+.mii-address-form .name-email > .wrapped-input {
+  width: 49%;
+  min-width: 15rem;
   padding-right: 1rem;
+  box-sizing: border-box;
 }
 
-.mii-address-form .city-state-zip label[for="#city"],
-.mii-address-form .city-state-zip label[for="#state"],
-.mii-address-form .city-state-zip label[for="#zip-code"] {
-  width: 20%;
+.mii-address-form .street label[for="street1"],
+.mii-address-form .street label[for="street2"],
+.mii-address-form .city-state-zip label[for="city"] {
+  box-sizing: border-box;
+  padding-right: 1rem;
+  width: 75%;
+}
+.mii-address-form .city-state-zip label[for="city"] {
+  box-sizing: border-box;
+  padding-right: 1rem;
+  width: 50%;
+}
+.mii-address-form .city-state-zip label[for="state"] {
+  box-sizing: border-box;
+  padding-right: 1rem;
+  width: 25%;
+}
+.mii-address-form .city-state-zip label[for="zip-code"] {
+  padding-right: 1rem;
+  width: 30%;
 }
