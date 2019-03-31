@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   /* Photo by Thomas Kelley on Unsplash */
-  background: url("./components/thomas-kelley-78865-unsplash.jpg");
+  background: url("./img/thomas-kelley-78865-unsplash.jpg") scroll;
   background-size: cover;
 }
 
@@ -42,13 +42,14 @@
 }
 
 .mii-react-app-content {
-  /* flex: 1; */
+  flex: 1;
   background: #f8f8f8;
   padding: 1rem;
   width: 66%;
   margin: 2rem auto;
   box-sizing: border-box;
   margin-bottom: 1rem;
+  overflow: auto;
 }
 
 .mii-react-app-link {

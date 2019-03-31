@@ -7,6 +7,8 @@
 .mii-home {
   height: 100%;
   display: flex;
+  flex: 1;
+  overflow: auto;
   flex-direction: column;
 }
 
@@ -31,8 +33,6 @@
 }
 
 .mii-home-header {
-  /* height: 3rem; */
-  /* width: 100%; */
   padding: 3rem 2rem 0;
 
   background-color: rgb(13, 84, 119, 0.75);
@@ -45,20 +45,17 @@
 
 .mii-home__logo {
   height: 4rem;
-  /* margin: 1rem; */
-  /* background: white; */
 }
 
-.mii-home-controls {
+.mii-home-tiles {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 .mii-home-content {
   font-size: 1.25rem;
-  /* flex: 5; */
-  /* width: 46%; */
+  max-width: 60rem;
   background: var(--white-bg);
   margin: 3rem auto;
   padding: 2rem;
@@ -66,4 +63,10 @@
 
 .mii-home-title {
   text-align: center;
+}
+
+.mii-tile {
+  flex: 1;
+  margin: 1rem;
+  min-width: 20rem;
 }
