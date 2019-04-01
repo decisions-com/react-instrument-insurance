@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./InstrumentPremium.css";
 import { CustomerProvidedImage } from "../api/InstrumentApi";
-export interface InstrumentPremiumProps {
+import ImageUploader, { ImageUploaderProps } from "./common/ImageUploader";
+export interface InstrumentPremiumProps extends ImageUploaderProps {
   premium: number;
   premiumComment: string;
   image?: CustomerProvidedImage;
@@ -20,7 +21,7 @@ export default class InstrumentPremium extends React.Component<
   public render() {
     return (
       <div className="instrument-premium">
-        <h3 className="form__title">Premium</h3>
+        {/* <h3 className="form__title">Premium</h3> */}
         <div className="instrument-premium__value">
           {toDollars(this.props.premium)}
         </div>
@@ -36,9 +37,10 @@ export default class InstrumentPremium extends React.Component<
           />
         ) : (
           <div className="instrument-premium__image-placeholder">
-            Upload a picture of your instrument for a discount.
+            <span>Upload a picture of your instrument for a discount.</span>
           </div>
         )}
+        <ImageUploader {...this.props} />
       </div>
     );
   }

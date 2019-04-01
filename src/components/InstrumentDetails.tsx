@@ -44,131 +44,112 @@ export default class InstrumentDetails extends React.Component<
   render() {
     return (
       <React.Fragment>
-        <h3 className="form__title">Instrument Details</h3>
-        <WrapInput
-          htmlFor="instrument-type"
-          label="Type of Instrument"
-          required
-        >
-          <select
-            id="instrument-type"
-            placeholder="Select"
-            onChange={this.props.onTypeChange}
-            value={this.props.instrumentType}
+        <fieldset className="mii-fieldset">
+          <legend>Instrument Details</legend>
+          <WrapInput
+            htmlFor="instrument-type"
+            label="Type of Instrument"
+            required
           >
-            <SelectOptions>{this.props.instrumentTypes}</SelectOptions>
-          </select>
-        </WrapInput>
-        {this.props.showOtherDetail ? (
-          <WrapInput htmlFor="detail" label="Detail" required>
-            <input
-              type="text"
-              id="detail"
-              onChange={this.props.onDetailChange}
-            />
-          </WrapInput>
-        ) : (
-          <WrapInput htmlFor="detail" label="Detail" required>
             <select
-              id="detail"
-              value={this.props.instrumentDetail}
-              onChange={this.props.onDetailChange}
+              id="instrument-type"
+              placeholder="Select"
+              onChange={this.props.onTypeChange}
+              value={this.props.instrumentType}
             >
-              <SelectOptions>{this.props.instrumentDetails}</SelectOptions>
+              <SelectOptions>{this.props.instrumentTypes}</SelectOptions>
             </select>
           </WrapInput>
-        )}
-        <WrapInput htmlFor="year" label="Year Made" required>
-          <input
-            id="year"
-            type="number"
-            onChange={this.props.onYearChange}
-            value={this.props.year}
-          />
-        </WrapInput>
-        <WrapInput htmlFor="make" label="Make" required>
-          <input
-            id="make"
-            type="text"
-            onChange={this.props.onMakeChange}
-            value={this.props.make}
-          />
-        </WrapInput>
-        <WrapInput htmlFor="model" label="Model" required>
-          <input
-            id="model"
-            type="text"
-            onChange={this.props.onModelChange}
-            value={this.props.model}
-          />
-        </WrapInput>
-        <WrapInput htmlFor="price" label="Purchase Price" required>
-          <input
-            id="price"
-            type="number"
-            value={this.props.price}
-            onChange={this.props.onPriceChange}
-          />
-        </WrapInput>
-        <WrapInput htmlFor="replacement-cost" label="Replacement Cost" required>
-          <input
-            id="replacement-cost"
-            type="number"
-            value={this.props.replacementCost}
-            onChange={this.props.onReplacementCostChange}
-          />
-        </WrapInput>
-        <WrapInput htmlFor="storage" label="Stored at/in" required>
-          <select
-            id="storage"
-            value={this.props.storageType}
-            onChange={this.props.onStorageChange}
-          >
-            <SelectOptions value={this.props.storageType}>
-              {this.props.storageTypes}
-            </SelectOptions>
-          </select>
-        </WrapInput>
-        {this.props.canBeInCase && (
-          <Checkbox
-            label="Kept in hard shell case"
-            checked={!!this.props.wasStoredInCase}
-            onChange={this.props.onHardShellChange}
-          />
-        )}
-        <div>
-          <Checkbox
-            label="Played professionally"
-            checked={!!this.props.wasPlayedPro}
-            onChange={this.props.onProChange}
-          />
-          <aside>Public performance use more than once per year</aside>
-        </div>
-        <div className="mii-image-uploader">
-          <WrapInput htmlFor="instr-image" label="Upload Image">
+          {this.props.showOtherDetail ? (
+            <WrapInput htmlFor="detail" label="Detail" required>
+              <input
+                type="text"
+                id="detail"
+                onChange={this.props.onDetailChange}
+              />
+            </WrapInput>
+          ) : (
+            <WrapInput htmlFor="detail" label="Detail" required>
+              <select
+                id="detail"
+                value={this.props.instrumentDetail}
+                onChange={this.props.onDetailChange}
+              >
+                <SelectOptions>{this.props.instrumentDetails}</SelectOptions>
+              </select>
+            </WrapInput>
+          )}
+          <WrapInput htmlFor="year" label="Year Made" required>
             <input
-              id="instr-image"
-              type="file"
-              onChange={this.props.onImageChange}
+              id="year"
+              type="number"
+              onChange={this.props.onYearChange}
+              value={this.props.year}
             />
           </WrapInput>
-          {this.props.rateCalcResult &&
-            this.props.rateCalcResult.ImageConfidence && (
-              <div className="image-feedback">
-                <img
-                  className="confidence-icon"
-                  src={
-                    "data:image/gif;base64," + this.props.rateCalcResult.Icon
-                  }
-                />
-                {this.props.rateCalcResult.ImageConfidence}
-                <aside className="warning">
-                  * Images submitted with low confidence may result in a
-                  re-submission
-                </aside>
-              </div>
-            )}
-        </div>
+          <WrapInput htmlFor="make" label="Make" required>
+            <input
+              id="make"
+              type="text"
+              onChange={this.props.onMakeChange}
+              value={this.props.make}
+            />
+          </WrapInput>
+          <WrapInput htmlFor="model" label="Model" required>
+            <input
+              id="model"
+              type="text"
+              onChange={this.props.onModelChange}
+              value={this.props.model}
+            />
+          </WrapInput>
+          <WrapInput htmlFor="price" label="Purchase Price" required>
+            <input
+              id="price"
+              type="number"
+              value={this.props.price}
+              onChange={this.props.onPriceChange}
+            />
+          </WrapInput>
+          <WrapInput
+            htmlFor="replacement-cost"
+            label="Replacement Cost"
+            required
+          >
+            <input
+              id="replacement-cost"
+              type="number"
+              value={this.props.replacementCost}
+              onChange={this.props.onReplacementCostChange}
+            />
+          </WrapInput>
+          <WrapInput htmlFor="storage" label="Stored at/in" required>
+            <select
+              id="storage"
+              value={this.props.storageType}
+              onChange={this.props.onStorageChange}
+            >
+              <SelectOptions value={this.props.storageType}>
+                {this.props.storageTypes}
+              </SelectOptions>
+            </select>
+          </WrapInput>
+          {this.props.canBeInCase && (
+            <Checkbox
+              label="Kept in hard shell case"
+              checked={!!this.props.wasStoredInCase}
+              onChange={this.props.onHardShellChange}
+            />
+          )}
+          <div>
+            <Checkbox
+              label="Played professionally"
+              checked={!!this.props.wasPlayedPro}
+              onChange={this.props.onProChange}
+            />
+            <aside>Public performance use more than once per year</aside>
+          </div>
+        </fieldset>
       </React.Fragment>
     );
   }

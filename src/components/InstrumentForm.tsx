@@ -189,7 +189,10 @@ class InstrumentForm extends React.Component<
           />
         </section>
         <section className="section">
-          <InstrumentPremium {...this.state} />
+          <InstrumentPremium
+            {...this.state}
+            onImageChange={this.onImageChange}
+          />
         </section>
       </MiiForm>
     );
