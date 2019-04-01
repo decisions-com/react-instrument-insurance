@@ -63,3 +63,21 @@
   font-size: 1.3rem;
   font-weight: 500;
 }
+
+.mii-form__two-fields {
+  display: flex;
+  flex-direction: row;
+}
+
+.mii-form__two-fields > * {
+  /* width: 50%; */
+  flex: 1;
+}
+
+.mii-form__two-fields > *:nth-child(odd) {
+  margin-right: 0.5rem;
+}
+
+.mii-form__two-fields > *:nth-child(even) {
+  margin-left: 0.5rem;
+}

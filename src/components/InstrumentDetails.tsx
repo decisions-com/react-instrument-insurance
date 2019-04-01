@@ -103,26 +103,28 @@ export default class InstrumentDetails extends React.Component<
               value={this.props.model}
             />
           </WrapInput>
-          <WrapInput htmlFor="price" label="Purchase Price" required>
-            <input
-              id="price"
-              type="number"
-              value={this.props.price}
-              onChange={this.props.onPriceChange}
-            />
-          </WrapInput>
-          <WrapInput
-            htmlFor="replacement-cost"
-            label="Replacement Cost"
-            required
-          >
-            <input
-              id="replacement-cost"
-              type="number"
-              value={this.props.replacementCost}
-              onChange={this.props.onReplacementCostChange}
-            />
-          </WrapInput>
+          <div className="mii-form__two-fields">
+            <WrapInput htmlFor="price" label="Purchase Price" required>
+              <input
+                id="price"
+                type="number"
+                value={this.props.price}
+                onChange={this.props.onPriceChange}
+              />
+            </WrapInput>
+            <WrapInput
+              htmlFor="replacement-cost"
+              label="Replacement Cost"
+              required
+            >
+              <input
+                id="replacement-cost"
+                type="number"
+                value={this.props.replacementCost}
+                onChange={this.props.onReplacementCostChange}
+              />
+            </WrapInput>
+          </div>
           <WrapInput htmlFor="storage" label="Stored at/in" required>
             <select
               id="storage"
@@ -146,8 +148,8 @@ export default class InstrumentDetails extends React.Component<
               label="Played professionally"
               checked={!!this.props.wasPlayedPro}
               onChange={this.props.onProChange}
+              tooltip="Public performance use more than once per year"
             />
-            <aside>Public performance use more than once per year</aside>
           </div>
         </fieldset>
       </React.Fragment>
