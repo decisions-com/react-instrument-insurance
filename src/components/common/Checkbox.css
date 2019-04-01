@@ -1,7 +1,20 @@
 .checkbox {
+  margin-top: 0.75rem;
   padding: 0.5rem;
 }
 
 .checkbox__input {
   margin-right: 0.5rem;
+}
+
+.checkbox__tooltip {
+  border: solid 2px var(--mii-blue);
+  color: var(--mii-blue);
+  font-weight: bold;
+  text-align: center;
+  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  /* font-size: 0.875rem; */
 }

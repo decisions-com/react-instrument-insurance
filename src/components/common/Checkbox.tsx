@@ -1,10 +1,12 @@
 import * as React from "react";
 import "./Checkbox.css";
+import props from "ramda/es/props";
 
 export interface CheckboxProps {
   label: string;
   checked: boolean;
   onChange: (label: string, selected: boolean) => void;
+  tooltip?: string;
 }
 
 export default class Checkbox extends React.Component<CheckboxProps, any> {
@@ -25,6 +27,11 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
           onChange={this.onChange}
         />
         {label}
+        {this.props.tooltip && (
+          <span title={this.props.tooltip} className="checkbox__tooltip">
+            i
+          </span>
+        )}
       </div>
     );
   }
