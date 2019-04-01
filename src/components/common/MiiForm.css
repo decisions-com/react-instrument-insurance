@@ -16,7 +16,12 @@
 
 .mii-form__fields.row > .section {
   flex: 1;
-  margin: 0 1rem;
+}
+.mii-form__fields.row > .section:nth-child(odd) {
+  margin-right: 0.5rem;
+}
+.mii-form__fields.row > .section:nth-child(even) {
+  margin-left: 0.5rem;
 }
 
 .mii-form__buttons {

@@ -19,6 +19,7 @@
   flex: 1;
   background: #f8f8f8;
   padding: 1rem;
+  width: 100%;
   max-width: 70rem;
   margin: 1rem auto;
   box-sizing: border-box;
