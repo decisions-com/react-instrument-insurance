@@ -8,7 +8,6 @@ interface HeaderProps extends RouteComponentProps {
 }
 
 const Header: React.FunctionComponent<HeaderProps> = ({ title, location }) => {
-  console.log("location", location);
   return (
     <React.Fragment>
       <section className="mii-home__top-nav">

@@ -143,8 +143,6 @@ class InstrumentForm extends React.Component<
     const app = getPolicyApp(this.props, this.state);
     const history = (this.props.location.state as BackgroundCheck).history;
     submitApplication(app, history, this.state.image).then(result => {
-      // console.log(result);
-      // window.alert("submitted application");
       this.props.history.push("./confirmation", result);
     });
   };
