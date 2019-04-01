@@ -15,10 +15,16 @@
 .wrapped-input select {
   border: none;
   background: rgba(0, 0, 0, 0.1);
-  padding: 0.25rem;
+  padding: 0.5rem;
   font-size: 0.875rem;
   box-sizing: border-box;
   width: 100%;
+}
+
+.wrapped-input input:focus,
+.wrapped-input textarea:focus,
+.wrapped-input select:focus {
+  outline: solid 2px var(--mii-blue);
 }
 
 .wrapped-input__warn-text {

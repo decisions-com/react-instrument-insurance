@@ -67,11 +67,13 @@
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
+  line-height: 1.5rem;
 }
 
 .mii-react-app .mii-button.inline,
 .mii-react-app button.inline {
   font-size: 1rem;
+  line-height: 1rem;
   padding: 0.25rem 0.7rem;
   margin: 1.5rem 0;
 }

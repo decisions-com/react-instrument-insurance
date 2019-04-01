@@ -149,89 +149,94 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
           </button>
         ]}
       >
+        <h2 className="form__title">Personal Information</h2>
         <section className="section">
-          <h3 className="form__title">Name and Email</h3>
-          <div className="name-email">
-            <WrapInput htmlFor="first-name" label="First Name">
-              <input
-                value={this.state.firstName}
-                type="text"
-                id="first-name"
-                onChange={this.onFirstNameChange}
-              />
-            </WrapInput>
-            <WrapInput htmlFor="last-name" label="Last Name">
-              <input
-                value={this.state.lastName}
-                type="text"
-                id="last-name"
-                onChange={this.onLastNameChange}
-              />
-            </WrapInput>
-            <WrapInput htmlFor="email" label="Email">
-              <input
-                value={this.state.email}
-                type="text"
-                id="email"
-                onChange={this.onEmailChange}
-              />
-            </WrapInput>
-          </div>
+          <fieldset className="mii-fieldset">
+            <legend>Name and Email</legend>
+            <div className="name-email">
+              <WrapInput htmlFor="first-name" label="First Name">
+                <input
+                  value={this.state.firstName}
+                  type="text"
+                  id="first-name"
+                  onChange={this.onFirstNameChange}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="last-name" label="Last Name">
+                <input
+                  value={this.state.lastName}
+                  type="text"
+                  id="last-name"
+                  onChange={this.onLastNameChange}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="email" label="Email">
+                <input
+                  value={this.state.email}
+                  type="text"
+                  id="email"
+                  onChange={this.onEmailChange}
+                />
+              </WrapInput>
+            </div>
+          </fieldset>
         </section>
         <section className="section">
-          <h3 className="form__title">Address</h3>
-          <div className="street">
-            <WrapInput htmlFor="street1" label="Address Line 1">
-              <input
-                type="text"
-                id="street1"
-                onChange={this.onStreetOneChange}
-                value={this.state.address1}
-              />
-            </WrapInput>
-            <WrapInput htmlFor="street2" label="Address Line 2">
-              <input
-                type="text"
-                id="street2"
-                onChange={this.onStreetTwoChange}
-                value={this.state.address2 || ""}
-              />
-            </WrapInput>
-          </div>
-          <div className="city-state-zip">
-            <WrapInput htmlFor="city" label="City">
-              <input
-                type="text"
-                id="city"
-                onChange={this.onCityChange}
-                value={this.state.city}
-              />
-            </WrapInput>
-            <WrapInput htmlFor="state" label="State">
-              <input
-                type="text"
-                id="state"
-                onChange={this.onStateChange}
-                value={this.state.state}
-              />
-            </WrapInput>
-            <WrapInput htmlFor="zip-code" label="Zip Code">
-              <input
-                type="text"
-                id="zip-code"
-                onChange={this.onZipChange}
-                value={this.state.ZipCode}
-              />
-            </WrapInput>
-            {this.state.canNormalize && !this.state.uspsFormatted && (
-              <button
-                className="inline secondary"
-                onClick={this.onNormalizeClick}
-              >
-                USPS Format
-              </button>
-            )}
-          </div>
+          <fieldset className="mii-fieldset">
+            <legend className="form__title">Address</legend>
+            <div className="street">
+              <WrapInput htmlFor="street1" label="Address Line 1">
+                <input
+                  type="text"
+                  id="street1"
+                  onChange={this.onStreetOneChange}
+                  value={this.state.address1}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="street2" label="Address Line 2">
+                <input
+                  type="text"
+                  id="street2"
+                  onChange={this.onStreetTwoChange}
+                  value={this.state.address2 || ""}
+                />
+              </WrapInput>
+            </div>
+            <div className="city-state-zip">
+              <WrapInput htmlFor="city" label="City">
+                <input
+                  type="text"
+                  id="city"
+                  onChange={this.onCityChange}
+                  value={this.state.city}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="state" label="State">
+                <input
+                  type="text"
+                  id="state"
+                  onChange={this.onStateChange}
+                  value={this.state.state}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="zip-code" label="Zip Code">
+                <input
+                  type="text"
+                  id="zip-code"
+                  onChange={this.onZipChange}
+                  value={this.state.ZipCode}
+                />
+              </WrapInput>
+              {this.state.canNormalize && !this.state.uspsFormatted && (
+                <button
+                  className="inline secondary"
+                  onClick={this.onNormalizeClick}
+                >
+                  USPS Format
+                </button>
+              )}
+            </div>
+          </fieldset>
         </section>
       </MiiForm>
     );
