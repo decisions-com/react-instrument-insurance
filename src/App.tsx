@@ -1,43 +1,28 @@
 import React, { Component } from "react";
-import "./App.css";
 import LoginForm from "./components/LoginForm";
 import Header from "./components/common/Header";
 import HomeComponent from "./components/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Application } from "./components/common/Application";
+import "./App.css";
+import { ApiConfig } from "./api/ApiConfig";
 
-enum Routes {
-  HOME = "home",
-  ADDRESS = "address",
-  DETAILS = "details"
+export interface AppProps {
+  baseUrl: string; // e.g. "/decisions/instrument-insurance/"
 }
 
-interface AppState {
-  route: Routes;
-}
-
-// could just install React Router, but making that play nice with IIS is a "nice to have."
-const initialState: AppState = {
-  route: Routes.HOME
-};
-
-class App extends Component<{}, AppState> {
-  state = { ...initialState };
-
-  onApplyClick = () => {
-    this.setState({ route: Routes.ADDRESS });
-  };
+class App extends Component<AppProps> {
+  constructor(props: AppProps) {
+    super(props);
+    ApiConfig.loadConfig();
+  }
 
   render() {
     return (
-      <Router>
+      <Router basename={this.props.baseUrl}>
         <div className="mii-react-app">
           <LoginForm />
-          <Header
-            key="header"
-            title="Musical Instrument Insurance"
-            onApplyClick={this.onApplyClick}
-          />
+          <Header key="header" title="Musical Instrument Insurance" />
           <Switch>
             <Route path="/" component={HomeComponent} exact />
             <Route path="/apply" component={Application} />

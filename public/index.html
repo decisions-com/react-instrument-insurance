@@ -22,7 +22,18 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Musical Instrument Insurance</title>
+    <script>
+      // set some base rest config.
+      var DecisionsRestConfig = {
+        cors: true,
+        restRoot: "%PUBLIC_URL%/decisions/Primary/"
+      };
+      // set app props, including the react-router baseUrl
+      var AppProps = {
+        baseUrl: "%PUBLIC_URL%/"
+      };
+    </script>
   </head>
   <body style="height: 100%;">
     <noscript>You need to enable JavaScript to run this app.</noscript>

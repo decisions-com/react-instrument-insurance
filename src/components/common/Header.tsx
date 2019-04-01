@@ -4,13 +4,9 @@ import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title: string;
-  onApplyClick: React.EventHandler<React.MouseEvent>;
 }
 
-const Header: React.FunctionComponent<HeaderProps> = ({
-  title,
-  onApplyClick
-}) => {
+const Header: React.FunctionComponent<HeaderProps> = ({ title }) => {
   return (
     <React.Fragment>
       <section className="mii-home__top-nav">
