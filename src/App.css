@@ -13,40 +13,14 @@
   pointer-events: none;
   background: white;
   padding: 0.5rem;
-  /* margin-right: 0.5rem; */
-}
-
-.mii-react-app-title {
-  font-size: 2rem;
-  color: #0088cc;
-  color: #fff;
-  font-weight: 500;
-  flex: 1;
-  margin: 0 0.5rem;
-}
-
-.mii-react-app-header {
-  padding: 0.25rem;
-  background-color: rgb(175, 228, 255);
-  background-color: rgb(13, 84, 119);
-  min-height: 2rem;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  display: flex;
-  flex-direction: row;
-  width: 66%;
-  margin: auto;
-  box-sizing: border-box;
 }
 
 .mii-react-app-content {
   flex: 1;
   background: #f8f8f8;
   padding: 1rem;
-  width: 66%;
-  margin: 2rem auto;
+  max-width: 70rem;
+  margin: 1rem auto;
   box-sizing: border-box;
   margin-bottom: 1rem;
   overflow: auto;
@@ -74,8 +48,8 @@
 .mii-react-app button.inline {
   font-size: 1rem;
   line-height: 1rem;
-  padding: 0.25rem 0.7rem;
-  margin: 1.5rem 0;
+  padding: 0.3rem 0.7rem;
+  margin: 2.3rem 0;
 }
 
 .mii-react-app .mii-button.secondary,

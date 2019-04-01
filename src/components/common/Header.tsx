@@ -1,12 +1,14 @@
 import * as React from "react";
 import logo from "./agileLogoTrans.png";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import classNames from "classnames";
 
-interface HeaderProps {
+interface HeaderProps extends RouteComponentProps {
   title: string;
 }
 
-const Header: React.FunctionComponent<HeaderProps> = ({ title }) => {
+const Header: React.FunctionComponent<HeaderProps> = ({ title, location }) => {
+  console.log("location", location);
   return (
     <React.Fragment>
       <section className="mii-home__top-nav">
@@ -21,7 +23,11 @@ const Header: React.FunctionComponent<HeaderProps> = ({ title }) => {
           </Link>
         </div>
       </section>
-      <header className="mii-home-header">
+      <header
+        className={classNames("mii-home-header", {
+          applying: location.pathname !== "/"
+        })}
+      >
         <img className="mii-home__logo" src={logo} />
         <h1 className="mii-home-title">{title}</h1>
       </header>
@@ -29,4 +35,4 @@ const Header: React.FunctionComponent<HeaderProps> = ({ title }) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

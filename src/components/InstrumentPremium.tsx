@@ -25,7 +25,9 @@ export default class InstrumentPremium extends React.Component<
         <div className="instrument-premium__value">
           {toDollars(this.props.premium)}
         </div>
-        <p>{this.props.premiumComment}</p>
+        <p className="instrument-premium__comment">
+          {this.props.premiumComment}&nbsp;
+        </p>
         {this.props.image ? (
           <img
             className="instrument-premium__image"
