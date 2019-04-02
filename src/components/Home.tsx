@@ -15,16 +15,15 @@ const HomeComponent: React.FunctionComponent<HomeComponentProps> = props => {
     <div className="mii-home">
       <section className="mii-home-content">
         <p>
-          At agile company, our affiliates have been providing premier coverage
-          for prestigious musical instruments since 1897. We have deep knowledge
-          of both instruments, and insurance, and we marry the two for your
-          benefit.
+          Agile Company and affiliates have provided premier coverage for
+          musical instruments since 1897. We have deep knowledge of instruments
+          and insurance coverage, and leverage both for your benefit.
         </p>
 
         <p>
-          Whether you are playing a modern guitar or a historical orchestral
-          piece, protecting an heirloom or the tool of your livelihood, we can
-          taylor coverage and rates to meet your precise needs.
+          Whether you are playing an electric guitar or a Stradivarius,
+          protecting a family heirloom or the tool of your livelihood, Agile
+          Company tailors coverage and rates to meet your needs.
         </p>
 
         <div className="mii-home-tiles">

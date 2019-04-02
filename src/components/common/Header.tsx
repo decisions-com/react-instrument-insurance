@@ -13,7 +13,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ title, location }) => {
       <section className="mii-home__top-nav">
         <div className="mii-home__links">
           <Link to="/">Home</Link> | <Link to="/">For Foundations</Link> |{" "}
-          <Link to="/">For ProfessionLinkls</Link> |{" "}
+          <Link to="/">For Professionals</Link> |{" "}
           <Link to="/">For Schools</Link> | <Link to="/">About Us</Link>
         </div>
         <div className="mii-home__links">
