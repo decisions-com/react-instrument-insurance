@@ -2,7 +2,7 @@
   --mii-blue: #0088cc;
   --white-bg: rgba(255, 255, 255, 0.9);
   --dark: #141f25;
-  --translucent-header: rgb(13, 84, 119, 0.75);
+  --medium-header: rgb(13, 84, 119, 1);
 }
 
 .mii-home {
@@ -35,7 +35,7 @@
 
 .mii-home-header {
   padding: 2rem 3rem 0;
-  background-color: rgb(13, 84, 119, 0.75);
+  background-color: var(--medium-header);
   color: white;
   display: flex;
   align-content: space-between;

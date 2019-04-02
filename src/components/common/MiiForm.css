@@ -28,7 +28,7 @@
   margin-top: 1rem;
   flex-direction: row;
   justify-content: flex-end;
-  /* background: var(--translucent-header);
+  /* background: var(--medium-header);
   background: var(--dark);
   padding: 1rem; */
 }
@@ -57,13 +57,13 @@
   border-width: 2.25rem 0 0 0;
   border-style: solid;
   border-color: var(--dark);
-  border-color: var(--translucent-header);
+  border-color: var(--medium-header);
 }
 
 .mii-fieldset legend {
   margin-left: 0.75rem;
   line-height: 2.25rem;
-  background: var(--translucent-header);
+  background: var(--medium-header);
   color: white;
   font-size: 1.3rem;
   font-weight: 500;

@@ -4,7 +4,7 @@ import Tile from "./Tile";
 import orchestra from "../img/larisa-birta-102093-unsplash.jpg";
 import school from "../img/dimitri-bong-1343639-unsplash.jpg";
 import individual from "../img/echo-grid-206321-unsplash.jpg";
-import band from "../img/markus-spiske-487963-unsplash.jpg";
+import band from "../img/vidar-nordli-mathisen-599293-unsplash.jpg";
 
 interface HomeComponentProps {
   onApplyClick: React.EventHandler<React.MouseEvent>;
@@ -28,16 +28,16 @@ const HomeComponent: React.FunctionComponent<HomeComponentProps> = props => {
 
         <div className="mii-home-tiles">
           <Tile image={individual} title="Individuals">
-            Learn about our rates for Individuals{" "}
+            View rates for Individuals{" "}
           </Tile>
           <Tile image={school} title="Schools">
-            Learn about our rates for Schools{" "}
+            View rates for Schools{" "}
           </Tile>
           <Tile image={band} title="Bands">
-            Learn about our rates for Bands{" "}
+            View rates for Bands{" "}
           </Tile>
           <Tile image={orchestra} title="Orchestras">
-            Learn about our rates for Orchestras{" "}
+            View rates for Orchestras{" "}
           </Tile>
         </div>
       </section>

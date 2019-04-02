@@ -5,10 +5,10 @@
 
 .wrapped-input__label {
   margin-bottom: 0.25rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   display: block;
   line-height: 1.2rem;
-  color: #575;
+  color: #333;
 }
 
 .wrapped-input input,
@@ -20,6 +20,13 @@
   font-size: 1rem;
   box-sizing: border-box;
   width: 100%;
+  border-radius: 0.2rem;
+}
+
+.wrapped-input input[type="number"]::-webkit-inner-spin-button,
+.wrapped-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .wrapped-input input:focus,

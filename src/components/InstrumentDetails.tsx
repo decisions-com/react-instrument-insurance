@@ -108,6 +108,8 @@ export default class InstrumentDetails extends React.Component<
               <input
                 id="price"
                 type="number"
+                step="0.01"
+                min="0"
                 value={this.props.price}
                 onChange={this.props.onPriceChange}
               />
@@ -119,6 +121,8 @@ export default class InstrumentDetails extends React.Component<
             >
               <input
                 id="replacement-cost"
+                step="0.01"
+                min="0"
                 type="number"
                 value={this.props.replacementCost}
                 onChange={this.props.onReplacementCostChange}
