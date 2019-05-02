@@ -13,7 +13,7 @@ export const ApiConfig = {
   isLoaded: false,
   loadConfig() {
     // check for it on the global namespace:
-    if (DecisionsRestConfig) {
+    if (!!DecisionsRestConfig) {
       this.cors = DecisionsRestConfig.cors;
       this.restRoot = DecisionsRestConfig.restRoot;
       return;
