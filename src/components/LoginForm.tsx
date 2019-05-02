@@ -18,7 +18,9 @@ const INITIAL_STATE: LoginFormState = {
 /**
  * A simplistic login form.
  * inside a Decisions context, Decisions will redirect to
- * the login and we should never see this.
+ * the login and we should never see this. This is
+ * for development only, but could also serve as an example
+ * of a more robust login screen for a separately hosted UI.
  */
 export default class LoginForm extends React.Component<
   LoginFormProps,
