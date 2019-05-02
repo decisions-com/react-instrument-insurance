@@ -12,10 +12,10 @@ via API call, and one way to authenticate those calls.
 
 ## Tech Details
 
-This project was created using `create-react-app`, and because we use TypeScript
+This project was created using [create-react-app](https://github.com/facebook/create-react-app), and because we use [TypeScript](https://www.typescriptlang.org/)
 internally, uses TypeScript. Because it's a fairly trivial app, there are no
 state management libraries involved and is mostly vanilla React, with the exception
-of React Router.
+of [React Router](https://reacttraining.com/react-router/).
 
 ### Note About CORS
 
