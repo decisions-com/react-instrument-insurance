@@ -3,7 +3,7 @@ import {
   getWrappedFetch,
   encodeWithNullForEmpty,
   getWrappedPostFetch
-} from "./ApiHelpers";
+} from "@decisions/api-helpers/ApiHelpers";
 import { pipe } from "ramda";
 
 /* Exports */

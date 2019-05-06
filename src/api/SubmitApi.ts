@@ -1,6 +1,9 @@
 import { CustomerProvidedImage } from "./InstrumentApi";
 import { PersonalHistory } from "./BackgroundApi";
-import { getFlowIdUrl, getWrappedPostFetch } from "./ApiHelpers";
+import {
+  getFlowIdUrl,
+  getWrappedPostFetch
+} from "@decisions/api-helpers/ApiHelpers";
 
 export function submitApplication(
   policyApp: PolicyApp,

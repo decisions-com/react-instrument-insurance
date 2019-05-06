@@ -5,7 +5,7 @@ import HomeComponent from "./components/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Application } from "./components/common/Application";
 import "./App.css";
-import { ApiConfig } from "./api/ApiConfig";
+import { ApiConfig } from "@decisions/api-helpers/ApiConfig";
 
 export interface AppProps {
   baseUrl: string; // e.g. "/decisions/instrument-insurance/"

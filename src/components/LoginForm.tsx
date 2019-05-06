@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AuthApi } from "../api/AuthApi";
+import { AuthApi } from "@decisions/api-helpers/AuthApi";
 import "./LoginForm.css";
 
 export interface LoginFormProps {}

@@ -3,7 +3,7 @@ import {
   getRuleIdUrl,
   getWrappedFetch,
   getWrappedPostFetch
-} from "./ApiHelpers";
+} from "@decisions/api-helpers/ApiHelpers";
 import { PersonalHistory } from "./BackgroundApi";
 
 interface InstrumentSubTypesResult {

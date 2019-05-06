@@ -2,7 +2,7 @@ import {
   getFlowIdUrl,
   encodeWithNullForEmpty,
   getWrappedFetch
-} from "./ApiHelpers";
+} from "@decisions/api-helpers/ApiHelpers";
 import { pipe } from "ramda";
 
 const CREDIT_REPORTING_ID = "9da3b919-9cc6-11e8-9672-509a4c510032";
