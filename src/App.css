@@ -28,16 +28,16 @@
 }
 
 .mii-react-app-link {
-  color: #61dafb;
+  color: #75A4FF;
 }
 
 .mii-react-app .mii-button,
 .mii-react-app button {
   border: none;
-  background: #0088cc;
-  padding: 0.5rem 1rem;
-  color: white;
-  font-size: 1.25rem;
+  background: var(--accent-color);
+  padding: 0.625rem 1.25rem;
+  color: black;
+  font-size: 1.125rem;
   border-radius: 0.3rem;
   font-weight: 500;
   cursor: pointer;
@@ -55,7 +55,6 @@
 
 .mii-react-app .mii-button.secondary,
 .mii-react-app button.secondary {
-  color: #0088cc;
-  background: white;
-  border: solid 1px #0088cc;
+  color: white;
+  background: var(--utility-button);
 }

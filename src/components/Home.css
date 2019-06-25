@@ -1,8 +1,11 @@
 :root {
-  --mii-blue: #0088cc;
+  --mii-blue: #3470e3;
+  --primary-light: #75a4ff;
   --white-bg: rgba(255, 255, 255, 0.9);
-  --dark: #141f25;
-  --medium-header: rgb(13, 84, 119, 1);
+  --dark: #122b5a;
+  --medium-header: #1b3b77;
+  --accent-color: #ffa842;
+  --utility-button: #526b9a;
 }
 
 .mii-home {
@@ -49,7 +52,9 @@
 }
 
 .mii-home__logo {
-  height: 4rem;
+  height: 3rem;
+  margin: 1.5rem 0;
+  line-height: 3rem;
 }
 
 .mii-home-tiles {
@@ -68,6 +73,10 @@
 
 .mii-home-title {
   text-align: center;
+  /* vertical-align: bottom; */
+  display: inline-block;
+  margin: 1.5rem;
+  line-height: 3rem;
 }
 
 .mii-tile {

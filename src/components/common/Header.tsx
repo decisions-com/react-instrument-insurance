@@ -1,5 +1,5 @@
 import * as React from "react";
-import logo from "./agileLogoTrans.png";
+import logo from "./logo.svg";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import classNames from "classnames";
 
