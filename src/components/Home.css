@@ -6,6 +6,12 @@
   --medium-header: #1b3b77;
   --accent-color: #ffa842;
   --utility-button: #526b9a;
+  --form-field-bg: #eee;
+  --form-field-focus-bg: #ffefdb;
+
+  /* margins and gutters */
+  --horizontal-margin: 1.875rem;
+  --seams: #d7d7d7;
 }
 
 .mii-home {
@@ -22,7 +28,7 @@
 
 .mii-home__top-nav {
   height: 2rem;
-  padding: 2rem 2rem 1rem;
+  padding: 1.5rem 2rem 0.8rem;
   /* padding-top: 3rem; */
   display: flex;
   flex-direction: row;

@@ -149,7 +149,6 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
           </button>
         ]}
       >
-        <h2 className="form__title">Personal Information</h2>
         <section className="section">
           <fieldset className="mii-fieldset">
             <legend>Name and Email</legend>
@@ -184,6 +183,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
         <section className="section">
           <fieldset className="mii-fieldset">
             <legend className="form__title">Address</legend>
+
             <div className="street">
               <WrapInput htmlFor="street1" label="Address Line 1">
                 <input

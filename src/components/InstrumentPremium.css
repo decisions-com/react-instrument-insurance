@@ -1,10 +1,15 @@
 .instrument-premium {
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
+}
+
+.instrument-premium__fields {
+  padding-left: 1.25rem;
+  padding-right: var(--horizontal-margin);
 }
 
 .instrument-premium__value {
   padding: 1.25rem 0;
-  background: #3470E3;
+  background: var(--primary-light);
   color: white;
   text-align: center;
   font-weight: 900;

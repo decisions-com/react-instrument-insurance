@@ -1,5 +1,10 @@
 /* .instrument-details {} */
 
+.instrument-fields {
+  padding-left: var(--horizontal-margin);
+  padding-right: 1.25rem;
+}
+
 .image-feedback {
   margin-top: 0.5rem;
   margin-left: 1rem;

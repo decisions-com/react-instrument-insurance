@@ -1,13 +1,15 @@
 .mii-form {
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
 }
 
 .mii-form__fields,
 .mii-form__buttons {
   display: flex;
   flex-direction: column;
+}
+.mii-form__buttons {
+  padding-right: var(--horizontal-margin);
 }
 
 .mii-form__fields.row {
@@ -18,23 +20,17 @@
   flex: 1;
 }
 .mii-form__fields.row > .section:nth-child(odd) {
-  margin-right: 0.5rem;
-}
-.mii-form__fields.row > .section:nth-child(even) {
-  margin-left: 0.5rem;
+  border-right: solid 2px var(--seams);
 }
 
 .mii-form__buttons {
   margin-top: 1rem;
   flex-direction: row;
   justify-content: flex-end;
-  /* background: var(--medium-header);
-  background: var(--dark);
-  padding: 1rem; */
 }
 
 .mii-form__buttons > * {
-  margin-left: 1rem;
+  margin-left: 1.25rem;
 }
 
 .form__title {
@@ -54,18 +50,23 @@
 
 .mii-fieldset {
   padding: 0 0 1rem 0;
-  border-width: 2.25rem 0 0 0;
-  border-style: solid;
-  border-color: var(--dark);
-  border-color: var(--medium-header);
+  margin-top: 0rem;
+  position: relative;
+  border: none;
 }
 
 .mii-fieldset legend {
-  margin-left: 0.75rem;
-  line-height: 2.25rem;
-  background: var(--medium-header);
-  color: white;
-  font-size: 1.3rem;
+  padding-left: var(--horizontal-margin);
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom-width: 0.25rem 0 0 0;
+  border-bottom-style: solid;
+  border-bottom-color: var(--mii-blue);
+  margin-bottom: 1rem;
+  line-height: 3.5rem;
+  height: 3.125rem;
+  color: var(--dark);
+  font-size: 1.5rem;
   font-weight: 500;
 }
 
@@ -75,14 +76,13 @@
 }
 
 .mii-form__two-fields > * {
-  /* width: 50%; */
   flex: 1;
 }
 
 .mii-form__two-fields > *:nth-child(odd) {
-  margin-right: 0.5rem;
+  margin-right: 0.625rem;
 }
 
 .mii-form__two-fields > *:nth-child(even) {
-  margin-left: 0.5rem;
+  margin-left: 0.625rem;
 }

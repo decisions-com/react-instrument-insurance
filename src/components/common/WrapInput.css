@@ -5,9 +5,9 @@
 
 .wrapped-input__label {
   margin-bottom: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   display: block;
-  line-height: 1.2rem;
+  line-height: 1.5rem;
   color: #333;
 }
 
@@ -15,12 +15,17 @@
 .wrapped-input textarea,
 .wrapped-input select {
   border: none;
-  background: rgba(0, 0, 0, 0.1);
-  padding: 0.4rem;
-  font-size: 1rem;
+  background: var(--form-field-bg);
+  padding: 0.4rem 0.9rem;
+  font-size: 1.125rem;
+  height: 40px;
+  line-height: 40px;
   box-sizing: border-box;
   width: 100%;
-  border-radius: 0.2rem;
+  border-bottom: solid 0.125rem var(--form-field-bg);
+  border-radius: 0;
+  /* -webkit-appearance: none; chrome mac */ /* TODO Needs a manual drop-down visual if this is on */
+  -webkit-border-radius: 0px; /* chrome mac */
 }
 
 .wrapped-input input[type="number"]::-webkit-inner-spin-button,
@@ -32,7 +37,9 @@
 .wrapped-input input:focus,
 .wrapped-input textarea:focus,
 .wrapped-input select:focus {
-  outline: solid 2px var(--mii-blue);
+  outline: none;
+  background: var(--form-field-focus-bg);
+  border-bottom: solid 0.125rem var(--accent-color);
 }
 
 .wrapped-input__warn-text {

@@ -3,15 +3,18 @@
 }
 
 .mii-address-form .name-email,
+.mii-address-form .street,
 .mii-address-form .city-state-zip {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-left: var(--horizontal-margin);
+  margin-right: var(--horizontal-margin);
 }
 .mii-address-form .name-email > .wrapped-input {
   width: 49%;
   min-width: 15rem;
-  padding-right: 1rem;
+  padding-right: 1.25rem;
   box-sizing: border-box;
 }
 
@@ -19,20 +22,20 @@
 .mii-address-form .street label[for="street2"],
 .mii-address-form .city-state-zip label[for="city"] {
   box-sizing: border-box;
-  padding-right: 1rem;
+  padding-right: 1.25rem;
   width: 75%;
 }
 .mii-address-form .city-state-zip label[for="city"] {
   box-sizing: border-box;
-  padding-right: 1rem;
+  padding-right: 1.25rem;
   width: 50%;
 }
 .mii-address-form .city-state-zip label[for="state"] {
   box-sizing: border-box;
-  padding-right: 1rem;
+  padding-right: 1.25rem;
   width: 25%;
 }
 .mii-address-form .city-state-zip label[for="zip-code"] {
-  padding-right: 1rem;
+  padding-right: 1.25rem;
   width: 30%;
 }
