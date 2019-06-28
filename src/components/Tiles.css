@@ -13,7 +13,7 @@
 }
 
 .mii-tile__title {
-  color: #3470E3;
+  color: var(--primary-color);
   padding: 0 2rem;
   margin-top: 1rem;
 }

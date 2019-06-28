@@ -8,8 +8,8 @@
 }
 
 .checkbox__tooltip {
-  border: solid 2px var(--mii-blue);
-  color: var(--mii-blue);
+  border: solid 2px var(--primary-color);
+  color: var(--primary-color);
   font-weight: bold;
   text-align: center;
   margin-left: 0.5rem;

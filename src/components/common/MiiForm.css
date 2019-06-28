@@ -34,7 +34,7 @@
 }
 
 .form__title {
-  border-color: var(--dark);
+  border-color: var(--primary-dark);
 }
 
 .mii-form--wrapping-group {
@@ -61,11 +61,11 @@
   box-sizing: border-box;
   border-bottom-width: 0.25rem 0 0 0;
   border-bottom-style: solid;
-  border-bottom-color: var(--mii-blue);
+  border-bottom-color: var(--primary-color);
   margin-bottom: 1rem;
   line-height: 3.5rem;
   height: 3.125rem;
-  color: var(--dark);
+  color: var(--primary-dark);
   font-size: 1.5rem;
   font-weight: 500;
 }

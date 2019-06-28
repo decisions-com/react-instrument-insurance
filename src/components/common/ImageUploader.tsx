@@ -4,16 +4,22 @@ import { RateCalcResult } from "../../api/InstrumentApi";
 
 export interface ImageUploaderProps {
   onImageChange: React.ChangeEventHandler;
+  fileName?: string;
   rateCalcResult?: RateCalcResult;
 }
 
 const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
   onImageChange,
+  fileName,
   rateCalcResult
 }) => {
   return (
     <div className="mii-image-uploader">
-      <WrapInput htmlFor="instr-image" label="Upload Image">
+      <WrapInput
+        className="file"
+        htmlFor="instr-image"
+        label={fileName || "Upload Image"}
+      >
         <input id="instr-image" type="file" onChange={onImageChange} />
       </WrapInput>
       {rateCalcResult && rateCalcResult.ImageConfidence && (

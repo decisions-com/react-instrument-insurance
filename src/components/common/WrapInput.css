@@ -13,10 +13,11 @@
 
 .wrapped-input input,
 .wrapped-input textarea,
-.wrapped-input select {
+.wrapped-input select,
+.wrapped-input.file {
   border: none;
   background: var(--form-field-bg);
-  padding: 0.4rem 0.9rem;
+  padding: 0.55rem 0.9rem;
   font-size: 1.125rem;
   height: 40px;
   line-height: 40px;
@@ -40,6 +41,19 @@
   outline: none;
   background: var(--form-field-focus-bg);
   border-bottom: solid 0.125rem var(--accent-color);
+}
+
+.wrapped-input.file {
+  cursor: pointer;
+}
+.wrapped-input.file .wrapped-input__label {
+  font-size: 1.125rem;
+  color: black;
+}
+
+.wrapped-input input[type="file"] {
+  visibility: hidden;
+  width: 1px;
 }
 
 .wrapped-input__warn-text {

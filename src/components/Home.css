@@ -1,13 +1,14 @@
 :root {
-  --mii-blue: #3470e3;
+  --primary-color: #3470e3;
   --primary-light: #75a4ff;
   --white-bg: rgba(255, 255, 255, 0.9);
-  --dark: #122b5a;
+  --primary-dark: #122b5a;
   --medium-header: #1b3b77;
   --accent-color: #ffa842;
   --utility-button: #526b9a;
   --form-field-bg: #eee;
   --form-field-focus-bg: #ffefdb;
+  --grey-text: #444444;
 
   /* margins and gutters */
   --horizontal-margin: 1.875rem;
@@ -32,9 +33,9 @@
   /* padding-top: 3rem; */
   display: flex;
   flex-direction: row;
-  color: var(--mii-blue);
+  color: var(--primary-color);
   justify-content: space-between;
-  background: var(--dark);
+  background: var(--primary-dark);
   align-items: baseline;
 }
 .mii-home__links a {

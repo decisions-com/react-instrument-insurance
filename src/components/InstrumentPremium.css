@@ -13,12 +13,12 @@
   color: white;
   text-align: center;
   font-weight: 900;
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
 .instrument-premium__image {
   max-width: 100%;
-  height: 18.75rem;
+  height: 18rem;
   display: block;
   margin: auto;
   border: solid 1px rgba(0, 0, 0, 0.3);
@@ -30,9 +30,10 @@
 }
 
 .instrument-premium__image-placeholder {
+  color: var(--grey-text);
   margin: auto;
   text-align: center;
-  height: 20.25rem;
+  height: 18rem;
   line-height: 13rem;
   font-size: 1.5rem;
   box-sizing: border-box;

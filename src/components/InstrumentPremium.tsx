@@ -8,11 +8,13 @@ export interface InstrumentPremiumProps extends ImageUploaderProps {
   image?: CustomerProvidedImage;
 }
 
-let toDollars = (num: Number) =>
+const toDollars = (num: Number) =>
   Number(num).toLocaleString("en-US", {
     style: "currency",
     currency: "USD"
   });
+
+const getFileName = (image?: CustomerProvidedImage) => image && image.FileName;
 
 export default class InstrumentPremium extends React.Component<
   InstrumentPremiumProps,
@@ -45,7 +47,10 @@ export default class InstrumentPremium extends React.Component<
                 <span>Upload a picture of your instrument for a discount.</span>
               </div>
             )}
-            <ImageUploader {...this.props} />
+            <ImageUploader
+              {...this.props}
+              fileName={getFileName(this.props.image)}
+            />
           </section>
         </fieldset>
       </div>
