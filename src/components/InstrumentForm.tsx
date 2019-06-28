@@ -71,8 +71,9 @@ class InstrumentForm extends React.Component<
 
   makeValueChangeHandler(key: keyof InstrumentFormState) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const partial: Partial<InstrumentFormState> = {};
-      partial[key] = e.target.value;
+      const partial: Partial<InstrumentFormState> = {
+        [key]: e.target.value
+      };
       this.setState(partial as InstrumentFormState);
       this.calculateRate();
     };
@@ -218,7 +219,7 @@ function getRateCalcBody(
     "Financial Risk": "", // seems null/empty in current flow.
     Make: state.make,
     Model: state.model,
-    History: background.history
+    History: background && background.history
   };
 }
 
