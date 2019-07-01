@@ -37,5 +37,4 @@ To do so add the following to `<decisions install>\ Files\Decisions\Decisions We
 
 ## Road Map
 
-1. Move API helpers to [API Helpers](https://github.com/decisions-com/api-helpers) and consume it as dependency.
 1. Clean up for best practices.
