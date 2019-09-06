@@ -23,7 +23,7 @@ This project was not configured to run Cross Domain, but has some example hooks
 for doing so. However, the Decisions web host will need to be configured to accept
 remote origin requests by modifying the web.config file.
 
-To do so add the following to `<decisions install>\ Files\Decisions\Decisions Web Host\web.config` in the `<system.webserver>` section:
+To do so add the following to `<decisions install>\Decisions Web Host\web.config` in the `<system.webserver>` section:
 
 ```xml
   <httpProtocol>
