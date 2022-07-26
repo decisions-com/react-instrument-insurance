@@ -25,6 +25,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
       {rateCalcResult && rateCalcResult.ImageConfidence && (
         <div className="image-feedback">
           <img
+            alt="confidence-level"
             className="confidence-icon"
             src={"data:image/gif;base64," + rateCalcResult.Icon}
           />

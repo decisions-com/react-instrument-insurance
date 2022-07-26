@@ -6,17 +6,6 @@ import {
 } from "@decisions/api-helpers/ApiHelpers";
 import { PersonalHistory } from "./BackgroundApi";
 
-interface InstrumentSubTypesResult {
-  "Instrument Sub Types": string[];
-}
-interface ShowImagePayload {
-  outputtype: "RawJson";
-  Image: CustomerProvidedImage;
-}
-
-interface BooleanRuleResult {
-  Result: boolean;
-}
 // main flow, for reference:
 // http://localhost/decisions/Primary/StudioH/?FolderId=92cbb934-cb2f-11e4-90d4-005056c00008&pageName=List&flowId=a9cc6d4e-cb2f-11e4-90d4-005056c00008&action=edit
 
@@ -78,12 +67,12 @@ function getSelectionIsOtherUrl(instrumentType: string) {
   )}&Selection=${instrumentType}`;
 }
 
-function getShowIconGridUrl(instrumentType: string) {
-  // http://localhost/decisions/Primary/?RuleId=a341eed3-290c-4f0c-bf69-48487dc8c81c&Action=api&outputtype=RawJson&Selection=null
-  return `${getRuleIdUrl(
-    "1ca7b0aa-b403-4c07-9770-348603d14104"
-  )}&Selection=${instrumentType}`;
-}
+// function getShowIconGridUrl(instrumentType: string) {
+//   // http://localhost/decisions/Primary/?RuleId=a341eed3-290c-4f0c-bf69-48487dc8c81c&Action=api&outputtype=RawJson&Selection=null
+//   return `${getRuleIdUrl(
+//     "1ca7b0aa-b403-4c07-9770-348603d14104"
+//   )}&Selection=${instrumentType}`;
+// }
 function getRateUrl() {
   return getFlowIdUrl("6062e203-cf98-11e7-abd9-1a4f32f7a749");
 }

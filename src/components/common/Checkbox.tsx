@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./Checkbox.css";
-import props from "ramda/es/props";
 
 export interface CheckboxProps {
   label: string;
@@ -11,8 +10,7 @@ export interface CheckboxProps {
 
 export default class Checkbox extends React.Component<CheckboxProps, any> {
   // not an SFC, because "this" is state we need to reference in this handler
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    this.props.onChange(this.props.label, !this.props.checked);
+  onChange = () => this.props.onChange(this.props.label, !this.props.checked);
 
   public render() {
     const { label, checked } = this.props;

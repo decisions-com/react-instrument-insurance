@@ -41,6 +41,5 @@
     "@types/react-dom": "16.8.2",
     "@types/react-router-dom": "^4.3.1"
   },
-  "proxy": "http://10.10.9.97",
-  "homepage": "http://10.10.9.98/decisions/instrument-insurance"
+  "homepage": "http://localhost:8081/instrument-insurance"
 }

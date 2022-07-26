@@ -35,6 +35,7 @@ export default class InstrumentPremium extends React.Component<
             </p>
             {this.props.image ? (
               <img
+                alt="Instrument Premium"
                 className="instrument-premium__image"
                 src={
                   (this.props.image.dataUrlTypeString +

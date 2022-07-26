@@ -27,7 +27,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ title, location }) => {
           applying: location.pathname !== "/"
         })}
       >
-        <img className="mii-home__logo" src={logo} />
+        <img alt="Logo" className="mii-home__logo" src={logo} />
         <h1 className="mii-home-title">{title}</h1>
       </header>
     </React.Fragment>

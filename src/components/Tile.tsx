@@ -14,7 +14,7 @@ const Tile: React.FunctionComponent<TileProps> = ({
   return (
     <div className="mii-tile">
       <h3 className="mii-tile__title">{title}</h3>
-      <img className="mii-tile__img" src={image} />
+      <img alt="Title" className="mii-tile__img" src={image} />
       <p>{children} →</p>
     </div>
   );
