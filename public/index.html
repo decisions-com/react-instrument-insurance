@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
+<html lang="en" style="height: 100%">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -30,35 +30,36 @@
     <script>
       // set some base rest config.
       var DecisionsRestConfig = {
-        cors: false,
-        jwt: true,
-        restRoot: "/Primary/"
+        cors: true,
+        jwt: false, // looks like I was in the middle of converting this to JWT, but not needed, per se
+        restRoot: "http://localhost:8081/Primary/",
       };
       // set app props, including the react-router baseUrl
       var AppProps = {
-        baseUrl: "%PUBLIC_URL%/"
+        baseUrl: "%PUBLIC_URL%/",
       };
 
-      console.log('will fetch?')
+      console.log("will fetch?");
 
-      fetch('http://192.168.1.3/decisions/Primary/REST/AccountService/LoginUser', {
-        // mode: "cors",
+      fetch("http://localhost:8081/Primary/REST/AccountService/LoginUser", {
+        mode: "cors",
         body: JSON.stringify({
-          "userid": "admin@decisions.com",
-          "password": "admin",
-          "outputtype": "Json"
+          userid: "admin@decisions.com",
+          password: "admin",
+          outputtype: "Json",
         }),
-        method: 'POST'
-      }).then((resp) => {
-        console.log(resp)
-      }).catch(rej => console.log(rej))
-
+        method: "POST",
+      })
+        .then((resp) => {
+          console.log(resp);
+        })
+        .catch((rej) => console.log(rej));
     </script>
   </head>
 
-  <body style="height: 100%;">
+  <body style="height: 100%">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root" style="height: 100%;"></div>
+    <div id="root" style="height: 100%"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -1,15 +1,52 @@
 import {
   getFlowIdUrl,
   encodeWithNullForEmpty,
-  getWrappedFetch
+  getWrappedFetch,
 } from "@decisions/api-helpers/ApiHelpers";
 import { pipe } from "ramda";
 
-const CREDIT_REPORTING_ID = "9da3b919-9cc6-11e8-9672-509a4c510032";
+const CREDIT_REPORTING_ID = "3a35ce1e-fe90-11ea-a1fb-b42e99a2ceb0";
+// http://localhost:8081/Primary/restapi/Flow/3a35ce1e-fe90-11ea-a1fb-b42e99a2ceb0
+/* {
+  "outputtype": "Json"
+} */
 
 // this flow is a NOOP right now, skipping:
 // const CRIME_REPORTING_ID = "f36cd65c-9d72-11e8-9672-509a4c510032";
-const CUSTOMER_HISTORY_ID = "5c80b985-9f06-11e8-9672-509a4c510032";
+/*
+http://localhost:8081/Primary/restapi/Flow/56c91b53-fe90-11ea-a1fb-b42e99a2ceb0
+outputtype: JSON
+{
+  "outputtype": "Json"
+}
+*/
+
+const CUSTOMER_HISTORY_ID = "791e5f31-fe90-11ea-a1fb-b42e99a2ceb0";
+/*
+http://localhost:8081/Primary/restapi/Flow/791e5f31-fe90-11ea-a1fb-b42e99a2ceb0 //< had to turn on REST integration for this. It was not already on.
+outputtype: JSON
+{
+  "outputtype": "Json"
+}
+
+{
+  "Done": {
+    "History": {
+      "LifetimeValue": 0,
+      "TotalMonthlyPremiumValue": 0,
+      "NearestPolicyExpiration": "0001-01-01T00:00:00",
+      "NumberOfActivePolicies": 0,
+      "CustomerSinceDate": "0001-01-01T00:00:00",
+      "CustomerServiceWarning": false,
+      "LifetimeClaimValue": 0,
+      "ClaimValue180Days": 0,
+      "LifetimeClaimCount": 0,
+      "ClaimsCount180Days": 0,
+      "LatePayments180Days": 0
+    }
+  }
+}
+*/
 
 /* Exports */
 
@@ -25,26 +62,23 @@ export function doBackgroundChecks(
   return new Promise<BackgroundCheck>((resolve, reject) => {
     const resolveCheck = () => {
       if (creditCheck && historyCheck) {
-        pipe(
-          getBackgroundCheck,
-          resolve
-        )(creditCheck, historyCheck);
+        pipe(getBackgroundCheck, resolve)(creditCheck, historyCheck);
       }
     };
 
     getHistoryReport()
-      .then(hist => {
+      .then((hist) => {
         historyCheck = hist;
         resolveCheck();
       })
-      .catch(reason => reject(reason));
+      .catch((reason) => reject(reason));
 
     getCreditReport(firstName, lastName, streetAddress, postalCode)
-      .then(credit => {
+      .then((credit) => {
         creditCheck = credit;
         resolveCheck();
       })
-      .catch(reason => reject(reason));
+      .catch((reason) => reject(reason));
   });
 }
 
@@ -80,7 +114,7 @@ function getCreditReportUrl(
     "&StreetAddress=",
     encodeWithNullForEmpty(streetAddress),
     "&PostalCode=",
-    encodeWithNullForEmpty(postalCode)
+    encodeWithNullForEmpty(postalCode),
   ].join("");
 }
 
@@ -94,7 +128,7 @@ function getBackgroundCheck(
 ): BackgroundCheck {
   return {
     credit,
-    history
+    history,
   };
 }
 
@@ -151,8 +185,8 @@ function getBaseCredit(): CreditHistoryResult {
       TotalLiabilityPastDue: 0,
       TotalLiabilityHighCredit: 0,
       BorrowerID: "",
-      _Name: ""
-    }
+      _Name: "",
+    },
   };
 }
 
@@ -168,7 +202,7 @@ function getBaseHistory(): PersonalHistory {
     NumberOfActivePolicies: 0,
     NearestPolicyExpiration: new Date(),
     TotalMonthlyPremiumValue: 0,
-    LifetimeValue: 0
+    LifetimeValue: 0,
   };
 }
 

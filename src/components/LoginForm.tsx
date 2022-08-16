@@ -45,7 +45,7 @@ export default class LoginForm extends React.Component<
     this.setState({ password: e.target.value });
 
   public render() {
-    return AuthApi.getSessionId() ? null : (
+    return AuthApi.getSessionId() || AuthApi.jwtToken ? null : (
       <form className="mii-login-form" onSubmit={this.onSubmit}>
         <input
           type="text"

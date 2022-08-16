@@ -2,7 +2,8 @@ import {
   getFlowIdUrl,
   getWrappedFetch,
   encodeWithNullForEmpty,
-  getWrappedPostFetch
+  getWrappedPostFetch,
+  getRuleIdUrl,
 } from "@decisions/api-helpers/ApiHelpers";
 import { pipe } from "ramda";
 
@@ -15,45 +16,87 @@ export const fetchCityStateFromZip = (zip: string) =>
   )(zip) as Promise<CityStateResult>;
 
 export function fetchCanNormalizeAddress(address: CanNormalizeAddressArg) {
-  return getWrappedFetch<boolean>(
-    getCanNormalizeAddressUrl(address),
-    "Normalize"
-  );
+  return getWrappedFetch<{ result: boolean }>(getAddressIsCompleteUrl(address));
 }
 
 export function postDoNormalize(body: UspsNormalizedAddressBody) {
   return getWrappedPostFetch<UspsNormalizedAddressResult>(
-    getFlowIdUrl("c5b73161-f0c1-11e7-abdf-1a4f32f7a749"),
+    getFlowIdUrl("a2dc8a52-1a0a-11eb-8422-00155d641900"),
     body
   );
 }
 
 /* helpers */
 
-const GET_CITY_STATE_FROM_ZIP_FLOW_ID = "473cb62a-cb42-11e4-90d4-005056c00008";
+// /Primary/restapi/Flow/
+// payload
+// {
+//   "outputtype": "Json",
+//   "Address1": "StringValue",
+//   "Address2": "StringValue",
+//   "City": "StringValue",
+//   "State": "StringValue",
+//   "ZipCode": "StringValue"
+// }
+
+// result
+// {
+//   "Done": {
+//     "City": "StringValue",
+//     "State": "StringValue"
+//   }
+// }
+
+/*
+Normalize Address:
+restapi/Flow/a2dc8a52-1a0a-11eb-8422-00155d641900
+payload:
+{
+  "outputtype": "Json",
+  "Address1": "StringValue",
+  "Address2": "StringValue",
+  "City": "StringValue",
+  "State": "StringValue",
+  "ZipCode": "StringValue"
+}
+result:
+{
+  "Done": {
+    "Address1": "StringValue",
+    "Address2": "StringValue",
+    "City": "StringValue",
+    "State": "StringValue",
+    "ZipCode": "StringValue"
+  }
+}
+
+*/
+const FILL_IN_ADRESS_CITY_STATE = "ec2cb54c-13d4-11eb-b2cc-98e743cdd00e";
 function getCityStateFromZipUrl(zip: string) {
   return (
-    getFlowIdUrl(GET_CITY_STATE_FROM_ZIP_FLOW_ID) +
+    getFlowIdUrl(FILL_IN_ADRESS_CITY_STATE) +
     `&ZipCode=${encodeURIComponent(zip)}`
   );
 }
 
-const CAN_NORMALIZE_URL_FLOW_ID = "e4825570-f0af-11e7-abdf-1a4f32f7a749";
+const ADDRESS_IS_COMPLETE_RULE_ID = "0ad4275e-707d-43ed-8adb-81d0ddc62601";
 
-function getCanNormalizeAddressUrl({
+function getAddressIsCompleteUrl({
   address1,
   address2,
   city,
-  state
+  state,
+  ZipCode,
 }: CanNormalizeAddressArg) {
   address1 = encodeWithNullForEmpty(address1);
   address2 = encodeWithNullForEmpty(address2);
   city = encodeWithNullForEmpty(city);
   state = encodeWithNullForEmpty(state);
+  ZipCode = encodeWithNullForEmpty(state);
 
   return (
-    getFlowIdUrl(CAN_NORMALIZE_URL_FLOW_ID) +
-    `&Address1=${address1}&Address2=${address2}&City=${city}&State=${state}`
+    getRuleIdUrl(ADDRESS_IS_COMPLETE_RULE_ID) +
+    `&Address1=${address1}&Address2=${address2}&City=${city}&State=${state}&Zipcode=${ZipCode}`
   );
 }
 
@@ -69,6 +112,7 @@ export interface CanNormalizeAddressArg {
   address2: string;
   city: string;
   state: string;
+  ZipCode: string;
 }
 
 export interface CanNormalizeAddressResult {
@@ -88,6 +132,6 @@ export interface UspsNormalizedAddressBody {
   Address2: string;
   City: string;
   State: string;
-  DoNormalize: string;
+  DoNormalize?: string; // new one doesn't take this input?
   ZipCode: string;
 }

@@ -6,7 +6,7 @@ import {
   CanNormalizeAddressArg,
   fetchCanNormalizeAddress,
   fetchCityStateFromZip,
-  postDoNormalize
+  postDoNormalize,
 } from "../api/AddressApi";
 import { debounce } from "debounce";
 import "./AddressForm.css";
@@ -26,7 +26,6 @@ export interface AddressFormState
     PersonDetails {
   /** true if can normalize address */
   canNormalize: boolean;
-  ZipCode: string;
   uspsFormatted?: boolean;
 }
 
@@ -39,7 +38,7 @@ const defaultState: AddressFormState = {
   canNormalize: false,
   firstName: "",
   lastName: "",
-  email: ""
+  email: "",
 };
 
 class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
@@ -47,13 +46,17 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
 
   canNormalizeAddress = debounce(() => {
     fetchCanNormalizeAddress(this.state)
-      .then(canNormalize => this.setState({ canNormalize }))
-      .catch(() => this.setState({ canNormalize: false }));
-  }, 150);
+      .then(({ result }) => {
+        this.setState({ canNormalize: result });
+      })
+      .catch(() => {
+        this.setState({ canNormalize: false });
+      });
+  }, 250);
 
   getCityAndState = debounce(() => {
     if (this.state.ZipCode.length > 4) {
-      fetchCityStateFromZip(this.state.ZipCode).then(value => {
+      fetchCityStateFromZip(this.state.ZipCode).then((value) => {
         const city = value["City Name"];
         const state = value["State Name"];
         if (city && state) {
@@ -70,10 +73,10 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
       getStreetAddress(this.state),
       this.state.ZipCode
     ) // go on after both resolve:
-      .then(backgroundCheck =>
+      .then((backgroundCheck) =>
         this.props.history.push("./instrument-info", {
           ...this.state,
-          ...backgroundCheck
+          ...backgroundCheck,
         })
       ) // or go on without it
       .catch(() => this.props.history.push("./instrument-info"));
@@ -122,15 +125,15 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
       City: this.state.city,
       State: this.state.state,
       ZipCode: this.state.ZipCode,
-      DoNormalize: "Yes"
-    }).then(value =>
+      DoNormalize: "Yes",
+    }).then((value) =>
       this.setState({
         address1: value.Address1,
         address2: value.Address2,
         city: value.City,
         state: value.State,
         ZipCode: value.ZipCode,
-        uspsFormatted: true
+        uspsFormatted: true,
       })
     );
   };
@@ -146,7 +149,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
           </Link>,
           <button className="mii-button" key="submit" type="submit">
             Continue
-          </button>
+          </button>,
         ]}
       >
         <section className="section">
@@ -232,7 +235,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
                   className="inline secondary"
                   onClick={this.onNormalizeClick}
                 >
-                  USPS Format
+                  Validate Address
                 </button>
               )}
             </div>
