@@ -11,6 +11,7 @@
   margin-left: var(--horizontal-margin);
   margin-right: var(--horizontal-margin);
 }
+
 .mii-address-form .name-email > .wrapped-input {
   width: 49%;
   min-width: 15rem;
@@ -19,11 +20,10 @@
 }
 
 .mii-address-form .street label[for="street1"],
-.mii-address-form .street label[for="street2"],
 .mii-address-form .city-state-zip label[for="city"] {
   box-sizing: border-box;
   padding-right: 1.25rem;
-  width: 75%;
+  flex: 1;
 }
 .mii-address-form .city-state-zip label[for="city"] {
   box-sizing: border-box;
@@ -35,7 +35,8 @@
   padding-right: 1.25rem;
   width: 25%;
 }
+.mii-address-form .street label[for="street2"],
 .mii-address-form .city-state-zip label[for="zip-code"] {
   padding-right: 1.25rem;
-  width: 30%;
+  width: 25%;
 }

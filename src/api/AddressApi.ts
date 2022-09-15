@@ -28,49 +28,6 @@ export function postDoNormalize(body: UspsNormalizedAddressBody) {
 
 /* helpers */
 
-// /Primary/restapi/Flow/
-// payload
-// {
-//   "outputtype": "Json",
-//   "Address1": "StringValue",
-//   "Address2": "StringValue",
-//   "City": "StringValue",
-//   "State": "StringValue",
-//   "ZipCode": "StringValue"
-// }
-
-// result
-// {
-//   "Done": {
-//     "City": "StringValue",
-//     "State": "StringValue"
-//   }
-// }
-
-/*
-Normalize Address:
-restapi/Flow/a2dc8a52-1a0a-11eb-8422-00155d641900
-payload:
-{
-  "outputtype": "Json",
-  "Address1": "StringValue",
-  "Address2": "StringValue",
-  "City": "StringValue",
-  "State": "StringValue",
-  "ZipCode": "StringValue"
-}
-result:
-{
-  "Done": {
-    "Address1": "StringValue",
-    "Address2": "StringValue",
-    "City": "StringValue",
-    "State": "StringValue",
-    "ZipCode": "StringValue"
-  }
-}
-
-*/
 const FILL_IN_ADRESS_CITY_STATE = "ec2cb54c-13d4-11eb-b2cc-98e743cdd00e";
 function getCityStateFromZipUrl(zip: string) {
   return (

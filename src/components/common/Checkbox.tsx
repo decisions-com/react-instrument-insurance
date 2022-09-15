@@ -15,7 +15,7 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
   public render() {
     const { label, checked } = this.props;
     return (
-      <div className="checkbox">
+      <label className="checkbox">
         <input
           className="checkbox__input"
           key={label}
@@ -30,7 +30,7 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
             i
           </span>
         )}
-      </div>
+      </label>
     );
   }
 }

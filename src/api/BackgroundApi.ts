@@ -2,17 +2,14 @@ import {
   getFlowIdUrl,
   encodeWithNullForEmpty,
   getWrappedFetch,
+  getWrappedPostFetch,
 } from "@decisions/api-helpers/ApiHelpers";
-import { pipe } from "ramda";
+import { PolicyApplication } from "./SubmitApi";
 
 const CREDIT_REPORTING_ID = "3a35ce1e-fe90-11ea-a1fb-b42e99a2ceb0";
-// http://localhost:8081/Primary/restapi/Flow/3a35ce1e-fe90-11ea-a1fb-b42e99a2ceb0
-/* {
-  "outputtype": "Json"
-} */
 
 // this flow is a NOOP right now, skipping:
-// const CRIME_REPORTING_ID = "f36cd65c-9d72-11e8-9672-509a4c510032";
+// const CRIME_REPORTING_ID = "56c91b53-fe90-11ea-a1fb-b42e99a2ceb0";
 /*
 http://localhost:8081/Primary/restapi/Flow/56c91b53-fe90-11ea-a1fb-b42e99a2ceb0
 outputtype: JSON
@@ -21,65 +18,25 @@ outputtype: JSON
 }
 */
 
-const CUSTOMER_HISTORY_ID = "791e5f31-fe90-11ea-a1fb-b42e99a2ceb0";
-/*
-http://localhost:8081/Primary/restapi/Flow/791e5f31-fe90-11ea-a1fb-b42e99a2ceb0 //< had to turn on REST integration for this. It was not already on.
-outputtype: JSON
-{
-  "outputtype": "Json"
-}
-
-{
-  "Done": {
-    "History": {
-      "LifetimeValue": 0,
-      "TotalMonthlyPremiumValue": 0,
-      "NearestPolicyExpiration": "0001-01-01T00:00:00",
-      "NumberOfActivePolicies": 0,
-      "CustomerSinceDate": "0001-01-01T00:00:00",
-      "CustomerServiceWarning": false,
-      "LifetimeClaimValue": 0,
-      "ClaimValue180Days": 0,
-      "LifetimeClaimCount": 0,
-      "ClaimsCount180Days": 0,
-      "LatePayments180Days": 0
-    }
-  }
-}
-*/
+const CUSTOMER_HISTORY_ID = "08da8a7c-2b9c-5a41-0c99-39085401e11c";
 
 /* Exports */
 
-export function doBackgroundChecks(
-  firstName: string,
-  lastName: string,
-  streetAddress: string,
-  postalCode: string
-) {
-  let creditCheck: CreditHistoryResult | undefined;
-  let historyCheck: PersonalHistory | undefined;
+interface IGetHistoryAndApplicationBody {
+  DateOfBirth?: Date;
+  PhoneNumber: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  StreetAddress: string;
+  City: string;
+  State: string;
+  Zip: string;
+  AptOrUnit: string;
+}
 
-  return new Promise<BackgroundCheck>((resolve, reject) => {
-    const resolveCheck = () => {
-      if (creditCheck && historyCheck) {
-        pipe(getBackgroundCheck, resolve)(creditCheck, historyCheck);
-      }
-    };
-
-    getHistoryReport()
-      .then((hist) => {
-        historyCheck = hist;
-        resolveCheck();
-      })
-      .catch((reason) => reject(reason));
-
-    getCreditReport(firstName, lastName, streetAddress, postalCode)
-      .then((credit) => {
-        creditCheck = credit;
-        resolveCheck();
-      })
-      .catch((reason) => reject(reason));
-  });
+export function doBackgroundChecks(body: IGetHistoryAndApplicationBody) {
+  return getHistoryReport(body);
 }
 
 export function getCreditReport(
@@ -93,8 +50,11 @@ export function getCreditReport(
   );
 }
 
-export function getHistoryReport() {
-  return getWrappedFetch<PersonalHistory>(getHistoryReportUrl(), "History");
+export function getHistoryReport(body: IGetHistoryAndApplicationBody) {
+  return getWrappedPostFetch<PersonalHistoryResult>(
+    getHistoryReportUrl(),
+    body
+  );
 }
 
 /* hoisted helpers */
@@ -122,17 +82,7 @@ function getHistoryReportUrl() {
   return getFlowIdUrl(CUSTOMER_HISTORY_ID);
 }
 
-function getBackgroundCheck(
-  credit: CreditHistoryResult,
-  history: PersonalHistory
-): BackgroundCheck {
-  return {
-    credit,
-    history,
-  };
-}
-
-function getBaseCredit(): CreditHistoryResult {
+export function getBaseCredit(): CreditHistoryResult {
   return {
     "Reported Income": 0,
     "Credit Report": {
@@ -190,30 +140,14 @@ function getBaseCredit(): CreditHistoryResult {
   };
 }
 
-function getBaseHistory(): PersonalHistory {
-  return {
-    LatePayments180Days: 0,
-    ClaimsCount180Days: 0,
-    LifetimeClaimCount: 0,
-    ClaimValue180Days: 0,
-    LifetimeClaimValue: 0,
-    CustomerServiceWarning: false,
-    CustomerSinceDate: new Date(),
-    NumberOfActivePolicies: 0,
-    NearestPolicyExpiration: new Date(),
-    TotalMonthlyPremiumValue: 0,
-    LifetimeValue: 0,
-  };
-}
-
 /* Types */
 
 export interface BackgroundCheck {
-  history: PersonalHistory;
+  history: CustomerHistorySummary;
   credit: CreditHistoryResult;
 }
 
-export interface PersonalHistory {
+export interface CustomerHistorySummary {
   LatePayments180Days: number;
   ClaimsCount180Days: number;
   LifetimeClaimCount: number;
@@ -228,7 +162,8 @@ export interface PersonalHistory {
 }
 
 export interface PersonalHistoryResult {
-  History: PersonalHistory;
+  History: CustomerHistorySummary;
+  PolicyApplication: PolicyApplication;
 }
 
 export interface CreditHistoryResult {

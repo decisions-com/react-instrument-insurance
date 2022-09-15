@@ -4,11 +4,10 @@ import Checkbox from "./common/Checkbox";
 import SelectOptions from "./common/SelectOptions";
 import { RateCalcResult } from "../api/InstrumentApi";
 import "./InstrumentDetails.css";
+import { PolicyApplication } from "../api/SubmitApi";
 
 export interface InstrumentDetailsInfo {
-  instrumentType: string;
   instrumentTypes: string[];
-  instrumentDetail: string;
   instrumentDetails: string[];
   showOtherDetail?: boolean;
   canBeInCase?: boolean;
@@ -17,11 +16,13 @@ export interface InstrumentDetailsInfo {
   price: number;
   year: number;
   make: string;
+  makes: string[];
   model: string;
+  models: string[];
   replacementCost: number;
-  storageType: string;
   storageTypes: string[];
   rateCalcResult?: RateCalcResult;
+  PolicyApplication: PolicyApplication;
 }
 
 export interface InstrumentDetailsProps extends InstrumentDetailsInfo {
@@ -35,12 +36,12 @@ export interface InstrumentDetailsProps extends InstrumentDetailsInfo {
   onStorageChange: React.ChangeEventHandler;
   onHardShellChange: (label: string, selected: boolean) => void;
   onProChange: (label: string, selected: boolean) => void;
+  onLimitedEditionChange: (label: string, selected: boolean) => void;
+  onPrimaryChange: (label: string, selected: boolean) => void;
   onImageChange: React.ChangeEventHandler;
 }
 
-export default class InstrumentDetails extends React.Component<
-  InstrumentDetailsProps
-> {
+export default class InstrumentDetails extends React.Component<InstrumentDetailsProps> {
   render() {
     return (
       <React.Fragment>
@@ -57,7 +58,7 @@ export default class InstrumentDetails extends React.Component<
                   id="instrument-type"
                   placeholder="Select"
                   onChange={this.props.onTypeChange}
-                  value={this.props.instrumentType}
+                  value={this.props.PolicyApplication.InstrumentType}
                 >
                   <SelectOptions>{this.props.instrumentTypes}</SelectOptions>
                 </select>
@@ -67,6 +68,7 @@ export default class InstrumentDetails extends React.Component<
                   <input
                     type="text"
                     id="detail"
+                    value={this.props.PolicyApplication.InstrumentSubType}
                     onChange={this.props.onDetailChange}
                   />
                 </WrapInput>
@@ -74,7 +76,7 @@ export default class InstrumentDetails extends React.Component<
                 <WrapInput htmlFor="detail" label="Detail" required>
                   <select
                     id="detail"
-                    value={this.props.instrumentDetail}
+                    value={this.props.PolicyApplication.InstrumentSubType}
                     onChange={this.props.onDetailChange}
                   >
                     <SelectOptions>
@@ -90,26 +92,30 @@ export default class InstrumentDetails extends React.Component<
                   id="year"
                   type="number"
                   onChange={this.props.onYearChange}
-                  value={this.props.year}
+                  value={this.props.PolicyApplication.YearMade}
                 />
               </WrapInput>
             </div>
             <div className="mii-form__two-fields">
               <WrapInput htmlFor="make" label="Make" required>
-                <input
+                <select
                   id="make"
-                  type="text"
+                  placeholder="Select Make"
                   onChange={this.props.onMakeChange}
-                  value={this.props.make}
-                />
+                  value={this.props.PolicyApplication.Make}
+                >
+                  <SelectOptions>{this.props.makes}</SelectOptions>
+                </select>
               </WrapInput>
               <WrapInput htmlFor="model" label="Model" required>
-                <input
+                <select
                   id="model"
-                  type="text"
+                  placeholder="Select Model"
                   onChange={this.props.onModelChange}
-                  value={this.props.model}
-                />
+                  value={this.props.PolicyApplication.Model}
+                >
+                  <SelectOptions>{this.props.models}</SelectOptions>
+                </select>
               </WrapInput>
             </div>
             <div className="mii-form__two-fields">
@@ -119,7 +125,7 @@ export default class InstrumentDetails extends React.Component<
                   type="number"
                   step="0.01"
                   min="0"
-                  value={this.props.price}
+                  value={this.props.PolicyApplication.PurchasePrice}
                   onChange={this.props.onPriceChange}
                 />
               </WrapInput>
@@ -133,7 +139,7 @@ export default class InstrumentDetails extends React.Component<
                   step="0.01"
                   min="0"
                   type="number"
-                  value={this.props.replacementCost}
+                  value={this.props.PolicyApplication.ReplacementCost}
                   onChange={this.props.onReplacementCostChange}
                 />
               </WrapInput>
@@ -141,29 +147,41 @@ export default class InstrumentDetails extends React.Component<
             <WrapInput htmlFor="storage" label="Stored at/in" required>
               <select
                 id="storage"
-                value={this.props.storageType}
+                value={this.props.PolicyApplication.StorageLocation}
                 onChange={this.props.onStorageChange}
               >
-                <SelectOptions value={this.props.storageType}>
+                <SelectOptions
+                  value={this.props.PolicyApplication.StorageLocation}
+                >
                   {this.props.storageTypes}
                 </SelectOptions>
               </select>
             </WrapInput>
+            <Checkbox
+              label="I am the Primary User"
+              checked={!!this.props.PolicyApplication.PrimaryUser}
+              onChange={this.props.onPrimaryChange}
+              // tooltip="Public performance use more than once per year"
+            />
+            <Checkbox
+              label="Played professionally"
+              checked={!!this.props.PolicyApplication.UsedProfessionally}
+              onChange={this.props.onProChange}
+              tooltip="Public performance use more than once per year"
+            />
+            <Checkbox
+              label="Limited Edition"
+              checked={!!this.props.PolicyApplication.LimitedEdition}
+              onChange={this.props.onLimitedEditionChange}
+              // tooltip="Public performance use more than once per year"
+            />
             {this.props.canBeInCase && (
               <Checkbox
                 label="Kept in hard shell case"
-                checked={!!this.props.wasStoredInCase}
+                checked={!!this.props.PolicyApplication.HardCase}
                 onChange={this.props.onHardShellChange}
               />
             )}
-            <div>
-              <Checkbox
-                label="Played professionally"
-                checked={!!this.props.wasPlayedPro}
-                onChange={this.props.onProChange}
-                tooltip="Public performance use more than once per year"
-              />
-            </div>
           </section>
         </fieldset>
       </React.Fragment>

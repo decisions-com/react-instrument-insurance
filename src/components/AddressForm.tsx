@@ -19,6 +19,8 @@ export interface PersonDetails {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
+  dob: string;
 }
 
 export interface AddressFormState
@@ -39,6 +41,8 @@ const defaultState: AddressFormState = {
   firstName: "",
   lastName: "",
   email: "",
+  phoneNumber: "",
+  dob: "",
 };
 
 class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
@@ -67,12 +71,18 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
   });
 
   onSubmit = () => {
-    doBackgroundChecks(
-      this.state.firstName,
-      this.state.lastName,
-      getStreetAddress(this.state),
-      this.state.ZipCode
-    ) // go on after both resolve:
+    doBackgroundChecks({
+      AptOrUnit: "TODO",
+      City: this.state.city,
+      Email: this.state.email,
+      FirstName: this.state.firstName,
+      LastName: this.state.lastName,
+      PhoneNumber: "TODO",
+      State: this.state.state,
+      StreetAddress: this.state.address1,
+      Zip: this.state.ZipCode,
+      DateOfBirth: new Date(), // TODO,
+    }) // go on after both resolve:
       .then((backgroundCheck) =>
         this.props.history.push("./instrument-info", {
           ...this.state,
@@ -96,10 +106,19 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
     this.setState({ email: e.target.value });
   };
 
+  onPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ phoneNumber: e.target.value });
+  };
+
+  onDOB = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ dob: e.target.value });
+  };
+
   makeAddressChangeHandler = (key: keyof AddressFormState) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value: Partial<AddressFormState> = {};
-      value[key] = e.target.value;
+      const value: Partial<AddressFormState> = {
+        [key]: e.target.value,
+      };
       value.uspsFormatted = false;
       this.setState(value as AddressFormState);
       this.canNormalizeAddress();
@@ -154,7 +173,7 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
       >
         <section className="section">
           <fieldset className="mii-fieldset">
-            <legend>Name and Email</legend>
+            <legend>Applicant Details</legend>
             <div className="name-email">
               <WrapInput htmlFor="first-name" label="First Name">
                 <input
@@ -180,26 +199,45 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
                   onChange={this.onEmailChange}
                 />
               </WrapInput>
+              <WrapInput htmlFor="phone-number" label="Phone Number">
+                <input
+                  value={this.state.phoneNumber}
+                  type="tel"
+                  id="phone-number"
+                  onChange={this.onPhoneChange}
+                />
+              </WrapInput>
+              <WrapInput htmlFor="birth-day" label="Date Of Birth">
+                <input
+                  value={this.state.dob}
+                  type="date"
+                  id="birth-day"
+                  onChange={this.onDOB}
+                />
+              </WrapInput>
             </div>
           </fieldset>
         </section>
         <section className="section">
           <fieldset className="mii-fieldset">
-            <legend className="form__title">Address</legend>
+            <legend className="form__title">Mailing Address</legend>
 
             <div className="street">
-              <WrapInput htmlFor="street1" label="Address Line 1">
+              <WrapInput htmlFor="street1" label="Street Address">
                 <input
+                  className="street-address"
                   type="text"
                   id="street1"
                   onChange={this.onStreetOneChange}
                   value={this.state.address1}
                 />
               </WrapInput>
-              <WrapInput htmlFor="street2" label="Address Line 2">
+              <WrapInput htmlFor="street2" label="&nbsp;">
                 <input
                   type="text"
+                  className="apt-unit"
                   id="street2"
+                  placeholder="Apt / Unit #"
                   onChange={this.onStreetTwoChange}
                   value={this.state.address2 || ""}
                 />
@@ -247,7 +285,3 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
 }
 
 export default withRouter(AddressForm);
-
-function getStreetAddress(state: AddressFormState) {
-  return [state.address1, state.address2, state.city, state.state].join(" ");
-}

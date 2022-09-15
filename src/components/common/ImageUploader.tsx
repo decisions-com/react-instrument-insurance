@@ -11,7 +11,7 @@ export interface ImageUploaderProps {
 const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
   onImageChange,
   fileName,
-  rateCalcResult
+  rateCalcResult,
 }) => {
   return (
     <div className="mii-image-uploader">
@@ -22,7 +22,8 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
       >
         <input id="instr-image" type="file" onChange={onImageChange} />
       </WrapInput>
-      {rateCalcResult && rateCalcResult.ImageConfidence && (
+      {/* // TODO */}
+      {/* {rateCalcResult && rateCalcResult.ImageConfidence && (
         <div className="image-feedback">
           <img
             alt="confidence-level"
@@ -34,7 +35,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
             * Images submitted with low confidence may result in a re-submission
           </aside>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

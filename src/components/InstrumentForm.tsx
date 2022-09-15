@@ -5,22 +5,24 @@ import "./common/MiiForm.css";
 import {
   CustomerProvidedImage,
   getSubTypes,
-  selectionIsOther,
+  selectionIsNotOther,
   getShowCase,
   getRateCalc,
   RateCalcBody,
   createImageObj,
-  RateCalcResult
+  RateCalcResult,
+  fetchModels,
+  fetchMakes,
 } from "../api/InstrumentApi";
 import MiiForm from "./common/MiiForm";
 import { withRouter, RouteComponentProps } from "react-router";
-import { BackgroundCheck } from "../api/BackgroundApi";
+import { PersonalHistoryResult } from "../api/BackgroundApi";
 import { debounce } from "debounce";
-import { PolicyApp, submitApplication } from "../api/SubmitApi";
-import { AddressFormState } from "./AddressForm";
+import { PolicyApplication, submitApplication } from "../api/SubmitApi";
 import { Link } from "react-router-dom";
 
-interface InstrumentFormProps extends RouteComponentProps {}
+interface InstrumentFormProps
+  extends RouteComponentProps<{}, {}, PersonalHistoryResult> {}
 
 interface InstrumentFormState extends InstrumentDetailsInfo {
   premiumComment: string;
@@ -29,28 +31,28 @@ interface InstrumentFormState extends InstrumentDetailsInfo {
   rateCalcResult?: RateCalcResult;
   GigsPerYear: number;
   Deductible: number;
+  PolicyApplication: PolicyApplication;
 }
 
 let defaultState: InstrumentFormState = {
-  instrumentType: "",
   instrumentTypes: [
     "Guitar",
     "Piano",
     "Drums / Percussion",
     "String",
     "Brass",
-    "Other"
+    "Other",
   ],
-  instrumentDetail: "",
   instrumentDetails: [],
-  storageType: "",
+  makes: [],
+  models: [],
   storageTypes: [
     "Home",
     "Studio",
     "School / Educational Center",
     "Standard Storage",
     "Climate Controlled Storage",
-    "Mobile Storage"
+    "Mobile Storage",
   ],
   premium: 0,
   premiumComment: "",
@@ -60,7 +62,8 @@ let defaultState: InstrumentFormState = {
   model: "",
   replacementCost: 0,
   GigsPerYear: 10,
-  Deductible: 60
+  Deductible: 60,
+  PolicyApplication: getDefaultPolicyApplication(),
 };
 
 class InstrumentForm extends React.Component<
@@ -69,12 +72,29 @@ class InstrumentForm extends React.Component<
 > {
   state = { ...defaultState };
 
-  makeValueChangeHandler(key: keyof InstrumentFormState) {
+  constructor(props: InstrumentFormProps) {
+    super(props);
+    // grab stuff we got from router for previous component
+    this.state.PolicyApplication = {
+      ...this.state.PolicyApplication,
+      ...this.props.location.state.PolicyApplication,
+    };
+  }
+
+  makePolicyAppChangeHandler(
+    key: keyof PolicyApplication,
+    sideEffect?: (value: any) => Promise<void> | void
+  ) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const partial: Partial<InstrumentFormState> = {
-        [key]: e.target.value
-      };
-      this.setState(partial as InstrumentFormState);
+      const value =
+        typeof this.state.PolicyApplication[key] === "number"
+          ? parseInt(e.target.value, 10)
+          : e.target.value;
+
+      this.setState({
+        PolicyApplication: { ...this.state.PolicyApplication, [key]: value },
+      });
+      sideEffect && sideEffect(value);
       this.calculateRate();
     };
   }
@@ -82,75 +102,112 @@ class InstrumentForm extends React.Component<
   onTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const instrumentType = e.target.value;
 
-    this.setState({ instrumentType });
+    this.setState({
+      PolicyApplication: {
+        ...this.state.PolicyApplication,
+        InstrumentType: instrumentType,
+      },
+    });
 
-    getSubTypes(instrumentType)
-      .then(instrumentDetails => this.setState({ instrumentDetails }))
-      .catch();
-
-    selectionIsOther(instrumentType)
-      .then(showOtherDetail => {
-        this.setState({ showOtherDetail });
+    Promise.all([
+      getSubTypes(instrumentType),
+      selectionIsNotOther(instrumentType),
+      getShowCase(instrumentType),
+      fetchMakes(instrumentType),
+    ])
+      .then((value) => {
+        this.setState({
+          instrumentDetails: value[0],
+          showOtherDetail: !value[1],
+          canBeInCase: value[2],
+          makes: value[3].Make,
+        });
       })
       .catch();
-
-    getShowCase(instrumentType)
-      .then(canBeInCase => {
-        this.setState({ canBeInCase });
-      })
-      .catch();
   };
 
-  onDetailChange = this.makeValueChangeHandler("instrumentDetail");
-  onYearChange = this.makeValueChangeHandler("year");
-  onMakeChange = this.makeValueChangeHandler("make");
-  onModelChange = this.makeValueChangeHandler("model");
+  onDetailChange = this.makePolicyAppChangeHandler("InstrumentSubType");
+  onYearChange = this.makePolicyAppChangeHandler("YearMade");
+  onMakeChange = this.makePolicyAppChangeHandler(
+    "Make",
+    async (make: string) => {
+      // update models:
+      const models = (await fetchModels(make)).Model;
+      this.setState({ models });
+    }
+  );
 
-  onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ price: Number.parseInt(e.target.value, 10) });
+  onModelChange = this.makePolicyAppChangeHandler("Model", async () => {
+    // update models:
+    //  const models = (await fetchModels(this.state.make)).Model;
+    //  this.setState({ models });
+    // why was I sure model change needed to do something else...
+  });
+
+  onPriceChange = this.makePolicyAppChangeHandler("PurchasePrice");
+
+  onReplacementCostChange = this.makePolicyAppChangeHandler("ReplacementCost");
+
+  onStorageChange = this.makePolicyAppChangeHandler("StorageLocation");
+
+  onHardShellChange = (_label: string, HardCase: boolean) => {
+    this.setState({
+      PolicyApplication: { ...this.state.PolicyApplication, HardCase },
+    });
     this.calculateRate();
   };
 
-  onReplacementCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ replacementCost: Number.parseInt(e.target.value, 10) });
+  onProChange = (_label: string, UsedProfessionally: boolean) => {
+    this.setState({
+      PolicyApplication: {
+        ...this.state.PolicyApplication,
+        UsedProfessionally,
+      },
+    });
     this.calculateRate();
   };
 
-  onStorageChange = this.makeValueChangeHandler("storageType");
-
-  onHardShellChange = (label: string, wasStoredInCase: boolean) => {
-    this.setState({ wasStoredInCase });
+  onLimitedEditionChange = (_label: string, LimitedEdition: boolean) => {
+    this.setState({
+      PolicyApplication: { ...this.state.PolicyApplication, LimitedEdition },
+    });
     this.calculateRate();
   };
 
-  onProChange = (label: string, wasPlayedPro: boolean) => {
-    this.setState({ wasPlayedPro });
+  onPrimaryChange = (_label: string, PrimaryUser: boolean) => {
+    this.setState({
+      PolicyApplication: { ...this.state.PolicyApplication, PrimaryUser },
+    });
     this.calculateRate();
   };
 
   calculateRate = debounce(() => {
+    if (!canCalculateRate(this.props, this.state)) {
+      return;
+    }
     getRateCalc(getRateCalcBody(this.props, this.state))
-      .then(result => {
+      .then((result) => {
         this.setState({
-          premiumComment: result.RichTextForAverageCalculation,
           premium: result.AdjustedPremium,
-          rateCalcResult: result
+          rateCalcResult: result,
         });
       })
       .catch();
   }, 150);
 
   onSubmit = () => {
-    const app = getPolicyApp(this.props, this.state);
-    const history = (this.props.location.state as BackgroundCheck).history;
-    submitApplication(app, history, this.state.image).then(result => {
-      this.props.history.push("./confirmation", result);
-    });
+    const app = this.state.PolicyApplication;
+    const history = this.props.location.state.History;
+    submitApplication(app, history, 100, 100, this.state.image).then(
+      (result) => {
+        this.props.history.push("./confirmation", result);
+      }
+    );
   };
 
   onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      createImageObj(e.target.files[0]).then(image => {
+      createImageObj(e.target.files[0]).then((image) => {
         this.setState({ image });
         this.calculateRate();
       });
@@ -167,7 +224,7 @@ class InstrumentForm extends React.Component<
           </Link>,
           <button key="submit" type="submit">
             Submit
-          </button>
+          </button>,
         ]}
         row
       >
@@ -185,6 +242,8 @@ class InstrumentForm extends React.Component<
             onHardShellChange={this.onHardShellChange}
             onProChange={this.onProChange}
             onImageChange={this.onImageChange}
+            onLimitedEditionChange={this.onLimitedEditionChange}
+            onPrimaryChange={this.onPrimaryChange}
           />
         </section>
         <section className="section">
@@ -200,63 +259,103 @@ class InstrumentForm extends React.Component<
 
 export default withRouter(InstrumentForm);
 
+function canCalculateRate(
+  props: InstrumentFormProps,
+  state: InstrumentFormState
+): boolean {
+  if (
+    !state.PolicyApplication.InstrumentType ||
+    !state.PolicyApplication.Make ||
+    !state.PolicyApplication.Model ||
+    !state.PolicyApplication.PurchasePrice ||
+    !state.PolicyApplication.ReplacementCost ||
+    !state.PolicyApplication.YearMade
+  ) {
+    return false;
+  }
+  return true;
+}
+
 function getRateCalcBody(
   props: InstrumentFormProps,
   state: InstrumentFormState
 ): RateCalcBody {
-  const background = props.location.state as BackgroundCheck;
+  const history = props.location.state.History;
+  const {
+    AddressState,
+    ApplicantFirstName,
+    ApplicantLastName,
+    Deductible,
+    FinancialRisk,
+    GigsPerYear,
+    HardCase,
+    InstrumentType,
+    Make,
+    Model,
+    UsedProfessionally,
+    PurchasePrice,
+    ReplacementCost,
+    StorageLocation,
+    YearMade,
+  } = state.PolicyApplication;
   return {
-    YearMade: state.year,
-    Storage: state.storageType,
-    "Replacement Cost": state.replacementCost,
-    "Hard Case": !!state.wasStoredInCase,
-    Deductible: 60, // hard-coded in current flow.
-    GigsPerYear: 10, // hard-coded in current flow.
-    ProfessionalUse: !!state.wasPlayedPro,
+    AddressState,
+    ApplicantName: `${ApplicantFirstName} ${ApplicantLastName}`,
+    CaptureRuleHistory: false,
     CustomerProvidedImage: state.image || null,
-    PurchasePrice: state.price,
-    "InstrumentType ": state.instrumentType,
-    "Financial Risk": "", // seems null/empty in current flow.
-    Make: state.make,
-    Model: state.model,
-    History: background && background.history
+    Deductible,
+    FinancialRisk,
+    GigsPerYear,
+    HardCase,
+    History: history && history,
+    InstrumentType,
+    Make,
+    Model,
+    ProfessionalUse: UsedProfessionally,
+    PurchasePrice,
+    ReplacementCost,
+    Storage: StorageLocation,
+    UniqueProcessId: "",
+    YearMade,
   };
 }
 
-function getPolicyApp(
-  props: InstrumentFormProps,
-  state: InstrumentFormState
-): PolicyApp {
-  const userInfo = props.location.state as AddressFormState & BackgroundCheck;
+function getDefaultPolicyApplication(): PolicyApplication {
   return {
-    FinancialRisk: "",
-    PropertyRisk: "", // ?
-    PremiumValue: state.premium,
-    CustomerProvidedImage: (state.image && state.image.FileName) || null,
-    ApplicantEmail: userInfo.email,
-    AddressState: userInfo.state,
-    City: userInfo.city,
-    GigsPerYear: 10,
-    StreetAddress: `${userInfo.address1} / ${userInfo.address2}`,
-    ReplacementCost: state.replacementCost,
-    PurchasePrice: state.price,
-    InstrumentSubType: state.instrumentDetail,
-    InstrumentType: state.instrumentType,
+    AddressState: "",
+    ApplicantEmail: "",
+    ApplicantFirstName: "",
+    ApplicantLastName: "",
+    ApplicantZipCode: "",
+    City: "",
+    CreatedDate: new Date(),
+    CustomerProvidedImage: null,
     Deductible: 60,
-    UsedProfessionally: !!state.wasPlayedPro,
-    YearMade: state.year.toString(),
-    HardCase: !!state.wasStoredInCase,
-    ApplicantLastName: userInfo.lastName,
-    ApplicantFirstName: userInfo.firstName,
-    ApplicantZipCode: userInfo.ZipCode,
-    StorageLocation: state.storageType,
-    TypeOfTransport: "",
-    Make: state.make,
-    Model: state.model,
-    Id: "",
-    ExtensionId: "",
     Deleted: false,
     DeletedBy: "",
-    DeletedOn: new Date()
+    DeletedOn: new Date(),
+    ExtensionId: "",
+    FinancialRisk: "",
+    GigsPerYear: 10,
+    HardCase: false,
+    Id: "",
+    InstrumentSubType: "",
+    InstrumentType: "",
+    LimitedEdition: false,
+    Make: "",
+    Model: "",
+    PremiumValue: 0,
+    PrimaryUser: false,
+    PropertyRisk: "",
+    PurchasePrice: 0,
+    ReplacementCost: 0,
+    StorageLocation: "",
+    StreetAddress1: "",
+    StreetAddress2: "",
+    TotalRuleTime: 0,
+    TypeOfTransport: "",
+    Underwriter: "",
+    UsedProfessionally: false,
+    YearMade: "",
   };
 }
