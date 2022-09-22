@@ -58,30 +58,27 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
       });
   }, 250);
 
-  getCityAndState = debounce(() => {
+  getCityAndState = debounce(async () => {
     if (this.state.ZipCode.length > 4) {
-      fetchCityStateFromZip(this.state.ZipCode).then((value) => {
-        const city = value["City Name"];
-        const state = value["State Name"];
-        if (city && state) {
-          this.setState({ city, state });
-        }
-      });
+      const { City, State } = await fetchCityStateFromZip(this.state.ZipCode);
+      if (City && State) {
+        this.setState({ city: City, state: State });
+      }
     }
   });
 
   onSubmit = () => {
     doBackgroundChecks({
-      AptOrUnit: "TODO",
+      AptOrUnit: this.state.address2,
       City: this.state.city,
       Email: this.state.email,
       FirstName: this.state.firstName,
       LastName: this.state.lastName,
-      PhoneNumber: "TODO",
+      PhoneNumber: this.state.phoneNumber,
       State: this.state.state,
       StreetAddress: this.state.address1,
       Zip: this.state.ZipCode,
-      DateOfBirth: new Date(), // TODO,
+      DateOfBirth: new Date(this.state.dob),
     }) // go on after both resolve:
       .then((backgroundCheck) =>
         this.props.history.push("./instrument-info", {
@@ -163,6 +160,15 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
         className="mii-address-form"
         onSubmit={this.onSubmit}
         buttons={[
+          this.state.canNormalize && !this.state.uspsFormatted && (
+            <button
+              className="secondary"
+              onClick={this.onNormalizeClick}
+              key="validate-address"
+            >
+              Validate Address
+            </button>
+          ),
           <Link to="/" className="mii-button secondary" key="back">
             Back
           </Link>,
@@ -268,14 +274,6 @@ class AddressForm extends React.Component<AddressFormProps, AddressFormState> {
                   value={this.state.ZipCode}
                 />
               </WrapInput>
-              {this.state.canNormalize && !this.state.uspsFormatted && (
-                <button
-                  className="inline secondary"
-                  onClick={this.onNormalizeClick}
-                >
-                  Validate Address
-                </button>
-              )}
             </div>
           </fieldset>
         </section>

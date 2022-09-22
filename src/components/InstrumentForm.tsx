@@ -317,6 +317,7 @@ function getRateCalcBody(
     Storage: StorageLocation,
     UniqueProcessId: "",
     YearMade,
+    PolicyApp: state.PolicyApplication,
   };
 }
 

@@ -1,12 +1,6 @@
-import {
-  getFlowIdUrl,
-  encodeWithNullForEmpty,
-  getWrappedFetch,
-  getWrappedPostFetch,
-} from "@decisions/api-helpers/ApiHelpers";
+import { getWrappedPostFetch } from "@decisions/api-helpers/ApiHelpers";
+import { getMiiPath } from "./ApiContants";
 import { PolicyApplication } from "./SubmitApi";
-
-const CREDIT_REPORTING_ID = "3a35ce1e-fe90-11ea-a1fb-b42e99a2ceb0";
 
 // this flow is a NOOP right now, skipping:
 // const CRIME_REPORTING_ID = "56c91b53-fe90-11ea-a1fb-b42e99a2ceb0";
@@ -17,9 +11,6 @@ outputtype: JSON
   "outputtype": "Json"
 }
 */
-
-const CUSTOMER_HISTORY_ID = "08da8a7c-2b9c-5a41-0c99-39085401e11c";
-
 /* Exports */
 
 interface IGetHistoryAndApplicationBody {
@@ -39,48 +30,14 @@ export function doBackgroundChecks(body: IGetHistoryAndApplicationBody) {
   return getHistoryReport(body);
 }
 
-export function getCreditReport(
-  firstName: string,
-  lastName: string,
-  streetAddress: string,
-  postalCode: string
-) {
-  return getWrappedFetch<CreditHistoryResult>(
-    getCreditReportUrl(firstName, lastName, streetAddress, postalCode)
-  );
-}
-
 export function getHistoryReport(body: IGetHistoryAndApplicationBody) {
   return getWrappedPostFetch<PersonalHistoryResult>(
-    getHistoryReportUrl(),
+    getMiiPath("history/"),
     body
   );
 }
 
 /* hoisted helpers */
-
-function getCreditReportUrl(
-  firstName: string,
-  lastName: string,
-  streetAddress: string,
-  postalCode: string
-) {
-  return [
-    getFlowIdUrl(CREDIT_REPORTING_ID),
-    "&FirstName=",
-    encodeWithNullForEmpty(firstName),
-    "&LastName=",
-    encodeWithNullForEmpty(lastName),
-    "&StreetAddress=",
-    encodeWithNullForEmpty(streetAddress),
-    "&PostalCode=",
-    encodeWithNullForEmpty(postalCode),
-  ].join("");
-}
-
-function getHistoryReportUrl() {
-  return getFlowIdUrl(CUSTOMER_HISTORY_ID);
-}
 
 export function getBaseCredit(): CreditHistoryResult {
   return {

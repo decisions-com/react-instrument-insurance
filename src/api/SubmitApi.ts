@@ -1,9 +1,7 @@
 import { CustomerProvidedImage } from "./InstrumentApi";
 import { CustomerHistorySummary } from "./BackgroundApi";
-import {
-  getFlowIdUrl,
-  getWrappedPostFetch,
-} from "@decisions/api-helpers/ApiHelpers";
+import { getWrappedPostFetch } from "@decisions/api-helpers/ApiHelpers";
+import { getMiiPath } from "./ApiContants";
 
 export function submitApplication(
   policyApp: PolicyApplication,
@@ -12,9 +10,9 @@ export function submitApplication(
   totalDiscount: number,
   photo?: CustomerProvidedImage
 ) {
-  const url = getFlowIdUrl("4322b204-525e-11e9-b50e-802bf99b288c");
+  const url = getMiiPath("apply/");
   const body: ApplicationBody = {
-    PolicyApp: policyApp,
+    PolicyApplication: policyApp,
     History: history,
     CustomerPhoto: photo || null,
     AdjustedPremium: adjustedPremium,
@@ -24,7 +22,7 @@ export function submitApplication(
 }
 
 export interface ApplicationBody {
-  PolicyApp: PolicyApplication;
+  PolicyApplication: PolicyApplication;
   History: CustomerHistorySummary;
   CustomerPhoto: CustomerProvidedImage | null; // must be defined on body, but can be null
   AdjustedPremium: number;

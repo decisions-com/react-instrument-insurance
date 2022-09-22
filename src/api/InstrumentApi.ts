@@ -4,7 +4,9 @@ import {
   getWrappedFetch,
   getWrappedPostFetch,
 } from "@decisions/api-helpers/ApiHelpers";
+import { getMiiPath } from "./ApiContants";
 import { CustomerHistorySummary } from "./BackgroundApi";
+import { PolicyApplication } from "./SubmitApi";
 
 // main flow, for reference:
 // http://localhost/decisions/Primary/StudioH/?FolderId=92cbb934-cb2f-11e4-90d4-005056c00008&pageName=List&flowId=a9cc6d4e-cb2f-11e4-90d4-005056c00008&action=edit
@@ -90,7 +92,8 @@ function getSelectionIsNotOtherUrl(instrumentType: string) {
 //   )}&Selection=${instrumentType}`;
 // }
 function getRateUrl() {
-  return getFlowIdUrl("fb6d8a62-fea0-11ea-a1fb-b42e99a2ceb0");
+  // return getFlowIdUrl("fb6d8a62-fea0-11ea-a1fb-b42e99a2ceb0");
+  return getMiiPath("rate-calculator/");
 }
 function getFileUploadUrl() {
   return getFlowIdUrl("a2607673-242b-11e6-80c4-00155d0aea03");
@@ -159,6 +162,7 @@ export interface RateCalcBody {
   Storage: string;
   UniqueProcessId: string;
   YearMade: string | number;
+  PolicyApp: PolicyApplication;
 }
 
 export interface RateCalcResult {
