@@ -13,6 +13,7 @@ import {
   RateCalcResult,
   fetchModels,
   fetchMakes,
+  getDefaultRateCalcResult,
 } from "../api/InstrumentApi";
 import MiiForm from "./common/MiiForm";
 import { withRouter, RouteComponentProps } from "react-router";
@@ -28,7 +29,7 @@ interface InstrumentFormState extends InstrumentDetailsInfo {
   premiumComment: string;
   premium: number;
   image?: CustomerProvidedImage;
-  rateCalcResult?: RateCalcResult;
+  rateCalcResult: RateCalcResult;
   GigsPerYear: number;
   Deductible: number;
   PolicyApplication: PolicyApplication;
@@ -64,6 +65,7 @@ let defaultState: InstrumentFormState = {
   GigsPerYear: 10,
   Deductible: 60,
   PolicyApplication: getDefaultPolicyApplication(),
+  rateCalcResult: getDefaultRateCalcResult(),
 };
 
 class InstrumentForm extends React.Component<
@@ -198,11 +200,16 @@ class InstrumentForm extends React.Component<
   onSubmit = () => {
     const app = this.state.PolicyApplication;
     const history = this.props.location.state.History;
-    submitApplication(app, history, 100, 100, this.state.image).then(
-      (result) => {
-        this.props.history.push("./confirmation", result);
-      }
-    );
+    const { AdjustedPremium, TotalDiscount } = this.state.rateCalcResult;
+    submitApplication(
+      app,
+      history,
+      AdjustedPremium,
+      parseFloat(TotalDiscount),
+      this.state.image
+    ).finally(() => {
+      this.props.history.push("./confirmation");
+    });
   };
 
   onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -223,10 +230,22 @@ class InstrumentForm extends React.Component<
             Back
           </Link>,
           <button key="submit" type="submit">
-            Submit
+            Continue
           </button>,
         ]}
         row
+        disclaimer={
+          <p style={{ margin: "1rem" }}>
+            <em>
+              By clicking the "Continue" button, you agree that Agile Co and
+              it's insurance partners may use other information sources to
+              collect information about you in order to calculate accurate
+              prices for your insurance including, but not limited to your
+              performance records, your claims history, consumer reports, and/or
+              credit history.
+            </em>
+          </p>
+        }
       >
         <section className="section">
           <InstrumentDetails

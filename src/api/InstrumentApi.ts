@@ -179,3 +179,20 @@ export interface RateCalcResult {
   NewModelDiscount: boolean;
   NewModelDiscountValue: string;
 }
+
+export function getDefaultRateCalcResult(): RateCalcResult {
+  return {
+    AdjustedPremium: 0,
+    PhotoDiscount: false,
+    PhotoDiscountValue: "",
+    ExistingCustomerDiscountValue: "",
+    ExistingCustomerDiscount: false,
+    LocationDiscount: false,
+    LocationDiscountValue: "",
+    SafeStorageDiscount: false,
+    SafeStorageDiscountValue: "",
+    TotalDiscount: "",
+    NewModelDiscount: false,
+    NewModelDiscountValue: "",
+  };
+}

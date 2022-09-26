@@ -49,3 +49,17 @@
   vertical-align: middle;
   line-height: normal;
 }
+
+.discount-detail {
+  list-style: none;
+  padding: 0;
+}
+.discount-detail-row {
+  vertical-align: middle;
+  margin: 0;
+}
+.discount-icon {
+  height: 1.5rem;
+  vertical-align: middle;
+  margin: 0.2rem 0.5rem;
+}

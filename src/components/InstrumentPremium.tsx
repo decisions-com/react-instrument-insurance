@@ -1,17 +1,25 @@
 import * as React from "react";
 import "./InstrumentPremium.css";
-import { CustomerProvidedImage } from "../api/InstrumentApi";
+import { CustomerProvidedImage, RateCalcResult } from "../api/InstrumentApi";
 import ImageUploader, { ImageUploaderProps } from "./common/ImageUploader";
+import heart from "../img/heart1.png";
+import pin from "../img/pin.png";
+import bulb from "../img/bulb.png";
+import shield from "../img/shield.png";
+import addPic from "../img/add-pic.png";
+import DiscountDetail from "./DiscountDetail";
+
 export interface InstrumentPremiumProps extends ImageUploaderProps {
   premium: number;
   premiumComment: string;
   image?: CustomerProvidedImage;
+  rateCalcResult: RateCalcResult;
 }
 
 const toDollars = (num: Number) =>
   Number(num).toLocaleString("en-US", {
     style: "currency",
-    currency: "USD"
+    currency: "USD",
   });
 
 const getFileName = (image?: CustomerProvidedImage) => image && image.FileName;
@@ -21,6 +29,13 @@ export default class InstrumentPremium extends React.Component<
   any
 > {
   public render() {
+    const {
+      ExistingCustomerDiscountValue,
+      NewModelDiscountValue,
+      SafeStorageDiscountValue,
+      PhotoDiscountValue,
+      LocationDiscountValue,
+    } = this.props.rateCalcResult;
     return (
       <div className="instrument-premium">
         {/* <h3 className="form__title">Premium</h3> */}
@@ -33,6 +48,33 @@ export default class InstrumentPremium extends React.Component<
             <p className="instrument-premium__comment">
               {this.props.premiumComment}&nbsp;
             </p>
+            <ul className="discount-detail">
+              <DiscountDetail
+                iconUrl={heart}
+                label="Existing Customer Discount"
+                value={ExistingCustomerDiscountValue}
+              />
+              <DiscountDetail
+                iconUrl={pin}
+                label="Location discount"
+                value={LocationDiscountValue}
+              />
+              <DiscountDetail
+                iconUrl={bulb}
+                label="New Model discount"
+                value={NewModelDiscountValue}
+              />
+              <DiscountDetail
+                iconUrl={shield}
+                label="Safe Storage discount"
+                value={SafeStorageDiscountValue}
+              />
+              <DiscountDetail
+                iconUrl={addPic}
+                label="Photo discount"
+                value={PhotoDiscountValue}
+              />
+            </ul>
             {this.props.image ? (
               <img
                 alt="Instrument Premium"

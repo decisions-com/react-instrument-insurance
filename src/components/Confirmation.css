@@ -1,4 +1,7 @@
 .mii-confirmation {
   font-size: 1.25rem;
   padding: var(--horizontal-margin);
+  max-width: 500px;
+  text-align: center;
+  margin: auto;
 }
